@@ -21,9 +21,6 @@ services:
     environment:
       ORIGIN: ${FRONTEND_ORIGIN}
     restart: unless-stopped
-  minio:
-    ports: !override ["${S3_BIND_HOST:-127.0.0.1}:${S3_PORT:-9675}:9000", "127.0.0.1:${MINIO_CONSOLE_PORT:-9676}:9001"]
-    restart: unless-stopped
 
 networks:
   database:

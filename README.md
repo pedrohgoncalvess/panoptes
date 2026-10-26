@@ -26,7 +26,9 @@ login manual e reutilizar sessões criptografadas nas coletas.
 Para usar o PostgreSQL Docker existente no servidor, veja
 [implantacao no servidor](docs/server-deployment.md).
 
-Requisitos: Python 3.12+, uv e Docker Compose para os servicos locais.
+Requisitos: Python 3.12+, uv, Docker Compose e um servico S3 compativel externo
+com bucket `panoptes` e credencial restrita a ele. Configure `S3_ENDPOINT_URL`,
+`S3_PUBLIC_ENDPOINT_URL`, `S3_ACCESS_KEY` e `S3_SECRET_KEY` no `.env` antes de subir.
 
 ```sh
 uv sync --all-packages
@@ -35,12 +37,12 @@ docker compose exec workers python -m panoptes_workers.cli --api-url http://back
 ```
 
 Copie `.env.example` para `.env` para personalizar a configuracao. Compose usa
-PostgreSQL 17 com pgvector, MinIO na tag solicitada, backend, migrations e workers.
+PostgreSQL 17 com pgvector, backend, migrations e workers. O armazenamento S3
+e externo; no servidor ele usa o Silo compartilhado, servico Docker `s3`.
 Migrations aguardam PostgreSQL saudavel; backend/workers aguardam migrations
-bem-sucedidas e MinIO saudavel. Ha um initializer curto de permissoes do volume
-MinIO; o servidor MinIO e os processos Python rodam sem privilegios.
+bem-sucedidas. Os processos Python rodam sem privilegios.
 
-API: `http://localhost:8000`. MinIO: `http://localhost:9001`.
+API: `http://localhost:8000`. O endpoint publico S3 deve ser acessivel pelo navegador.
 Todas as operacoes de negocio e `/openapi.json` exigem JWT. Login e renovacao
 por refresh token, assim como `/health/live` e `/health/ready`, sao as excecoes.
 Na inicializacao, o backend cria ou atualiza o superusuario somente se
@@ -51,13 +53,14 @@ nenhum superusuario e criado ou atualizado. A senha usa hash Argon2.
 A CLI usa `PANOPTES_EMAIL` e `PANOPTES_PASSWORD` para autenticar.
 Veja [autenticacao e rotinas](docs/auth-and-routines.md) para configurar agendas
 antes do frontend.
-As credenciais postgres/postgres e minioadmin/minioadmin sao defaults locais.
+As credenciais postgres/postgres sao defaults locais. As credenciais S3 devem
+ser provisionadas no servico externo, com acesso apenas ao bucket configurado.
 URLs de banco com caracteres reservados no usuario/senha exigem percent-encoding.
-As portas publicadas sao configuraveis via POSTGRES_PORT (5432), BACKEND_PORT
-(8000), S3_PORT (9000) e MINIO_CONSOLE_PORT (9001); valores ausentes ou vazios
-usam esses defaults. As portas internas e conexoes entre containers permanecem
-fixas. A URL S3 publica acompanha S3_PORT. Workers, migrations e o inicializador
-de volume nao possuem servidores de rede. Para processos fora do Docker,
+As portas publicadas sao configuraveis via POSTGRES_PORT (5432) e BACKEND_PORT
+(8000); valores ausentes ou vazios usam esses defaults. As portas internas e
+conexoes entre containers permanecem fixas. `S3_PUBLIC_ENDPOINT_URL` configura
+o endereco dos downloads assinados. Workers e migrations nao possuem servidores
+de rede. Para processos fora do Docker,
 ajuste tambem as URLs locais/--api-url quando mudar uma porta.
 O frontend faz parte do Compose, na porta FRONTEND_PORT (3000). No Windows,
 execute `npm run dev` em frontend: o Vite le o `.env` da raiz e acessa o backend
@@ -70,7 +73,7 @@ valida candidatos, entra nos aprovados e confirma a identidade. Cada ASIN e um
 produto separado, associado a um ou varios termos. Os produtos aprovados ganham
 atualizacao direta por link nas agendas de Rotinas, sem repetir a busca, preservando
 observacoes anteriores de preco, estoque, cupons, promocoes e demais metadados.
-HTMLs e imagens sao enviados ao MinIO; PostgreSQL guarda metadados e referencias.
+HTMLs e imagens sao enviados ao S3; PostgreSQL guarda metadados e referencias.
 
 Veja o [fluxo Amazon e comandos completos](docs/amazon-workflow.md), o
 [contrato base de extracao](docs/extraction-contract.md) e o

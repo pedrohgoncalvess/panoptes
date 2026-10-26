@@ -1,8 +1,10 @@
-# Servidor com PostgreSQL compartilhado
+# Servidor com PostgreSQL e Silo compartilhados
 
 O override `compose.server.yaml` conecta migrations, backend e workers ao
 PostgreSQL existente na rede externa `dokploy-network`. O servico PostgreSQL
-local fica em um profile separado. MinIO e sessoes usam volumes do Panoptes.
+local fica em um profile separado. Backend e workers acessam o Silo existente
+pelo hostname `s3`, na mesma rede. Apenas as sessoes usam um volume do Panoptes;
+o projeto nao inicia MinIO nem um inicializador de volume de armazenamento.
 
 No servidor, o checkout fica em `/home/pedro/Desktop/projects/panoptes`, ao lado
 do Gork. A configuracao privada fica no `.env`, fora do Git. Ela define:
@@ -10,8 +12,10 @@ do Gork. A configuracao privada fica no `.env`, fora do Git. Ela define:
 - `POSTGRES_USER=panoptes`, `POSTGRES_DB=panoptes` e uma senha exclusiva.
 - `DATABASE_NETWORK=dokploy-network` e o hostname Docker `postgres`.
 - `FRONTEND_BIND_HOST`, `FRONTEND_PORT` e `FRONTEND_ORIGIN` para o acesso web.
-- `S3_BIND_HOST`, `S3_PORT`, `MINIO_CONSOLE_PORT` e `S3_PUBLIC_ENDPOINT_URL`.
-- Credenciais MinIO, chaves JWT/browser e OpenRouter quando configurado.
+- `S3_ENDPOINT_URL=http://s3:9000` e `S3_BUCKET=panoptes`.
+- `S3_PUBLIC_ENDPOINT_URL=http://100.83.108.118:9000` para downloads assinados.
+- `S3_ACCESS_KEY=panoptes` e `S3_SECRET_KEY` exclusiva, fora do Git.
+- Chaves JWT/browser e OpenRouter quando configurado.
 - `BROWSER_SERVICE_URL=http://backend:8000` para coletas com sessoes.
 
 Ao migrar usuarios, deixe `SUPERUSER_NAME`, `SUPERUSER_EMAIL` e
@@ -43,14 +47,22 @@ objetos da aplicacao sao restaurados em uma transacao sob a role `panoptes`.
 
 Os backups privados e contagens de verificacao ficam fora do checkout em
 `/home/pedro/Desktop/projects/panoptes-migration-20261026`, com acesso restrito.
-Essa pasta tambem preserva `minio-image.tar.gz`: a imagem MinIO fixada no
-Compose estava indisponivel no registro e foi transferida do desenvolvimento.
-Em caso de perda do cache de imagens, importe-a antes do `up`:
+O armazenamento foi transferido do MinIO dedicado para o bucket `panoptes` do
+Silo compartilhado. A credencial IAM `panoptes` recebe a policy
+[`panoptes-bucket-full-access`](../deploy/s3/panoptes-policy.json), com `s3:*`
+somente em `arn:aws:s3:::panoptes` e `arn:aws:s3:::panoptes/*`, e negacao
+explicita para outros recursos S3. Ela nao recebe permissoes administrativas.
+O bucket permanece privado; downloads usam URLs assinadas. Nao ha mudancas
+nas bibliotecas S3 da aplicacao.
+
+Para provisionar essa policy como administrador do Silo, depois de criar o
+bucket e a credencial com uma senha exclusiva:
 
 ```sh
-docker load -i /home/pedro/Desktop/projects/panoptes-migration-20261026/minio-image.tar.gz
+mc admin policy create silo panoptes-bucket-full-access deploy/s3/panoptes-policy.json
+mc admin policy attach silo panoptes-bucket-full-access --user panoptes
 ```
 
 Antes de uma nova migracao, pare os produtores de escrita, tire um dump
-consistente e copie tambem os volumes de arquivos e sessoes. Valide contagens,
+consistente e copie tambem os objetos S3 e o volume de sessoes. Valide contagens,
 autenticacao, acesso aos arquivos e isolamento da role antes de iniciar workers.
