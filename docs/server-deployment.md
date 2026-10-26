@@ -43,6 +43,14 @@ objetos da aplicacao sao restaurados em uma transacao sob a role `panoptes`.
 
 Os backups privados e contagens de verificacao ficam fora do checkout em
 `/home/pedro/Desktop/projects/panoptes-migration-20261026`, com acesso restrito.
+Essa pasta tambem preserva `minio-image.tar.gz`: a imagem MinIO fixada no
+Compose estava indisponivel no registro e foi transferida do desenvolvimento.
+Em caso de perda do cache de imagens, importe-a antes do `up`:
+
+```sh
+docker load -i /home/pedro/Desktop/projects/panoptes-migration-20261026/minio-image.tar.gz
+```
+
 Antes de uma nova migracao, pare os produtores de escrita, tire um dump
 consistente e copie tambem os volumes de arquivos e sessoes. Valide contagens,
 autenticacao, acesso aos arquivos e isolamento da role antes de iniciar workers.
