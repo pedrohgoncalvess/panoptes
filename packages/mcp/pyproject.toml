@@ -1,0 +1,16 @@
+[project]
+name = "panoptes-mcp"
+version = "0.1.0"
+description = "Authenticated MCP tools for Panoptes discovery, search and price history"
+requires-python = ">=3.12"
+dependencies = ["mcp>=1.28,<2", "httpx>=0.28,<1", "panoptes-contracts"]
+
+[project.scripts]
+panoptes-mcp = "panoptes_mcp.server:main"
+
+[tool.uv.sources]
+panoptes-contracts = { workspace = true }
+
+[build-system]
+requires = ["hatchling>=1.27,<2"]
+build-backend = "hatchling.build"

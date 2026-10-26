@@ -1,0 +1,48 @@
+/* Mineral blue, warm paper and restrained motion. */
+:root {
+	--blue-950: #102a43;
+	--blue-900: #163b60;
+	--blue-800: #204c7b;
+	--blue-700: #285f96;
+	--blue-600: #326fac;
+	--blue-100: #e7eef7;
+	--blue-50: #f2f6fb;
+	--canvas: #f6f7f9;
+	--surface: #fff;
+	--ink: #182b3e;
+	--muted: #677586;
+	--border: #e3e7ed;
+	--success: #35745b;
+	--warning: #98662e;
+	--danger: #ab4646;
+	--radius-sm: 6px;
+	--radius-md: 10px;
+	--radius-lg: 16px;
+	--shadow: 0 3px 14px #102a4305;
+	--space-1: 4px;
+	--space-2: 8px;
+	--space-3: 12px;
+	--space-4: 16px;
+	--space-5: 20px;
+	--space-6: 24px;
+	--space-8: 32px;
+	--space-10: 40px;
+	--motion-fast: 140ms;
+	--motion-normal: 220ms;
+	--ease: cubic-bezier(0.2, 0.7, 0.2, 1);
+	--text-small: 13px;
+	--text-body: 16px;
+	--text-input: 17px;
+	--text-heading: 34px;
+	--selection-background: #285f96;
+	--selection-color: #fff;
+	font-size: var(--text-body);
+	font-family:
+		'Segoe UI',
+		system-ui,
+		-apple-system,
+		sans-serif;
+	color: var(--ink);
+	background: var(--canvas);
+	font-synthesis: none;
+}

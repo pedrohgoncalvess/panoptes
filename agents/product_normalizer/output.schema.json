@@ -1,0 +1,26 @@
+{
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["name", "category", "brand", "model", "attributes", "missing", "confidence", "reason"],
+  "properties": {
+    "name": {"type": "string", "minLength": 1, "maxLength": 300},
+    "category": {"type": "string", "minLength": 1, "maxLength": 80},
+    "brand": {"type": "string", "minLength": 1, "maxLength": 150},
+    "model": {"type": "string", "minLength": 1, "maxLength": 200},
+    "attributes": {
+      "type": "array", "maxItems": 30,
+      "items": {
+        "type": "object", "additionalProperties": false,
+        "required": ["name", "value", "evidence"],
+        "properties": {
+          "name": {"type": "string", "minLength": 1, "maxLength": 80},
+          "value": {"type": "string", "minLength": 1, "maxLength": 200},
+          "evidence": {"type": "string", "minLength": 1, "maxLength": 1000}
+        }
+      }
+    },
+    "missing": {"type": "array", "maxItems": 30, "items": {"type": "string"}},
+    "confidence": {"type": "number", "minimum": 0, "maximum": 1},
+    "reason": {"type": "string", "minLength": 1, "maxLength": 1000}
+  }
+}

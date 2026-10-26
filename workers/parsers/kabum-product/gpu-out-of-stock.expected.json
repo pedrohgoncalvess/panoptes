@@ -1,0 +1,69 @@
+{
+  "entity": {
+    "kind": "product",
+    "source_key": "162131",
+    "url": "https://www.kabum.com.br/produto/162131/placa-de-video-asus-nvidia-geforce-rtx-3070-8gb-gddr6-rtx-dual-rtx3070-o8g",
+    "title": "Placa de Vídeo Asus NVIDIA GeForce RTX 3070, 8GB GDDR6 - RTX DUAL-RTX3070-O8G",
+    "description": "Placa De Vídeo Asus Geforce Rtx 3070 OC, 8GB, DDR6, Dual, 256-bit - Dual-RTX3070-O8G",
+    "price": "15999.9",
+    "currency": "BRL",
+    "availability": "out_of_stock",
+    "attributes": {}
+  },
+  "offer": {
+    "price": "15999.9",
+    "list_price": null,
+    "currency": "BRL",
+    "availability": "out_of_stock",
+    "availability_text": null,
+    "stock_qt": null,
+    "seller": "KaBuM!",
+    "ships_from": null,
+    "condition": null,
+    "promotions": [],
+    "image_urls": [
+      "https://images.kabum.com.br/produtos/fotos/magalu/162131/large/Placa-de-V-deo-Asus-GeForce-RTX-3070-8GB_1763599922.jpg"
+    ],
+    "payment_options": [],
+    "shipping": null,
+    "shipping_options": [],
+    "stock_lower_bound_qt": null,
+    "units_per_pack": null,
+    "minimum_purchase_qt": null,
+    "maximum_purchase_qt": null,
+    "commercial_extraction": {
+      "version": "1.0.1",
+      "evidence": [
+        {
+          "field": "availability",
+          "locator": "Product.offers.availability",
+          "excerpt": "https://schema.org/OutOfStock",
+          "method": "deterministic"
+        },
+        {
+          "field": "price",
+          "locator": "Product.offers.price",
+          "excerpt": "15999.9",
+          "method": "deterministic"
+        }
+      ],
+      "unresolved": [],
+      "fallback_status": "not_needed",
+      "model": null,
+      "input_tokens": null,
+      "output_tokens": null
+    }
+  },
+  "authors": [],
+  "isbn": [],
+  "specifications": {},
+  "rating_text": null,
+  "review_count_text": null,
+  "catalog": {
+    "category": "other",
+    "brand": "ASUS",
+    "model": null,
+    "identifiers": {},
+    "attributes": {}
+  }
+}

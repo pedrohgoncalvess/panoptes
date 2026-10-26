@@ -1,0 +1,72 @@
+{
+  "entity": {
+    "kind": "product",
+    "source_key": "42636",
+    "url": "https://www.terabyteshop.com.br/produto/42636/placa-de-video-superframe-nvidia-geforce-rtx-3070-epic-8gb-gddr6-dlss-ray-tracing-sf-gc-epnv30708gbd6",
+    "title": "Placa de Vídeo SuperFrame NVIDIA GeForce RTX 3070 EPIC, 8GB, GDDR6, DLSS, Ray Tracing, SF-GC-EPNV30708GBD6",
+    "description": "Placa de Vídeo SuperFrame NVIDIA GeForce RTX 3070 EPIC, 8GB, GDDR6, DLSS, Ray Tracing, SF-GC-EPNV30708GBD6. Placa de Vídeo RTX 3070 SuperFrame com 8GB GDDR6. Use DLSS e Ray Tracing para rodar jogos em 4K com alta taxa de quadros e realismo. Aproveite na Terabyte!",
+    "price": "2659.99",
+    "currency": "BRL",
+    "availability": "out_of_stock",
+    "attributes": {}
+  },
+  "offer": {
+    "price": "2659.99",
+    "list_price": null,
+    "currency": "BRL",
+    "availability": "out_of_stock",
+    "availability_text": "Todos vendidos    Produto Indisponível",
+    "stock_qt": null,
+    "seller": "TerabyteShop",
+    "ships_from": null,
+    "condition": "NewCondition",
+    "promotions": [],
+    "image_urls": [
+      "https://img.terabyteshop.com.br/produto/p/placa-de-video-superframe-nvidia-geforce-rtx-3070-epic-8gb-gddr6-dlss-ray-tracing-sf-gc-epnv30708gbd6_277764.jpg"
+    ],
+    "payment_options": [],
+    "shipping": null,
+    "shipping_options": [],
+    "stock_lower_bound_qt": null,
+    "units_per_pack": null,
+    "minimum_purchase_qt": null,
+    "maximum_purchase_qt": null,
+    "commercial_extraction": {
+      "version": "1.0.1",
+      "evidence": [
+        {
+          "field": "availability",
+          "locator": ".AreaInfvlrpdt .disp-ok,#indisponivel",
+          "excerpt": "Todos vendidos    Produto Indisponível",
+          "method": "deterministic"
+        },
+        {
+          "field": "price",
+          "locator": "Product.offers.price",
+          "excerpt": "2659.99",
+          "method": "deterministic"
+        }
+      ],
+      "unresolved": [],
+      "fallback_status": "not_needed",
+      "model": null,
+      "input_tokens": null,
+      "output_tokens": null
+    }
+  },
+  "authors": [],
+  "isbn": [],
+  "specifications": {},
+  "rating_text": null,
+  "review_count_text": null,
+  "catalog": {
+    "category": "other",
+    "brand": "SuperFrame",
+    "model": "SF-GC-EPNV30708GBD6",
+    "identifiers": {
+      "gtin13": "0789129143378",
+      "mpn": "SF-GC-EPNV30708GBD6"
+    },
+    "attributes": {}
+  }
+}

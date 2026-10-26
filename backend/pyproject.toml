@@ -1,0 +1,63 @@
+[project]
+name = "panoptes-backend"
+version = "0.1.0"
+description = "Async management API for Panoptes extraction contracts"
+requires-python = ">=3.12"
+dependencies = [
+    "playwright>=1.51,<2",
+    "cryptography>=44,<47",
+    "PyJWT>=2.10,<3",
+    "pwdlib[argon2]>=0.3,<1",
+    "panoptes-contracts",
+    "panoptes-database",
+    "fastapi>=0.115,<1",
+    "panoptes-storage",
+    "uvicorn>=0.34,<1",
+    "psycopg[binary]>=3.2,<4",
+    "PyYAML>=6,<7",
+    "python-dotenv==1.0.1",
+    "aiofiles>=24.1.0",
+    "panoptes-ai",
+]
+
+[tool.uv.sources]
+panoptes-ai = { workspace = true }
+panoptes-contracts = { workspace = true }
+panoptes-database = { workspace = true }
+panoptes-storage = { workspace = true }
+
+[build-system]
+requires = ["hatchling>=1.27,<2"]
+build-backend = "hatchling.build"
+
+[tool.black]
+line-length = 88
+target-version = ['py39']
+include = '\.pyi?$'
+extend-exclude = '''
+# A regex preceded with ^/ will apply only to files and directories
+# in the root of the project.
+^/foo.py  # exclude a file named foo.py in the root of the project
+'''
+exclude = '''
+/(
+    \.eggs
+    | \.git
+    | \.hg
+    | \.mypy_cache
+    | \.tox
+    | \.venv
+    | _build
+    | buck-out
+    | build
+    | dist
+    | migrations
+)/
+'''
+force-exclude = '''
+^/examples/
+'''
+
+[tool.isort]
+profile = "black"
+multi_line_output = 3

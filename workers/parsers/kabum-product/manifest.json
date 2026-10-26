@@ -1,0 +1,25 @@
+{
+  "contract_version": "1.0",
+  "slug": "kabum-product",
+  "version": "1.0.0",
+  "hosts": [
+    "www.kabum.com.br",
+    "kabum.com.br"
+  ],
+  "entity_kind": "product",
+  "entrypoint": "panoptes_workers.retailers.kabum:parse_catalog_product",
+  "fixtures": [
+    {
+      "name": "gpu-out-of-stock",
+      "html_path": "gpu-out-of-stock.html",
+      "expected_path": "gpu-out-of-stock.expected.json",
+      "provenance": "sanitized_capture"
+    },
+    {
+      "name": "gpu-in-stock",
+      "html_path": "gpu-in-stock.html",
+      "expected_path": "gpu-in-stock.expected.json",
+      "provenance": "sanitized_capture"
+    }
+  ]
+}

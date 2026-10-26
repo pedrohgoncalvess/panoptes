@@ -1,0 +1,80 @@
+version: 1
+agents:
+  taxonomy_normalizer:
+    name: Product category and subcategory normalization
+    description: Reuses and grows a compact editable multi-label product taxonomy.
+    version: "1"
+    model: google/gemini-2.5-flash-lite
+    prompt: taxonomy_normalizer/prompt.md
+    structured_output: taxonomy_normalizer/output.schema.json
+    settings:
+      temperature: 0
+      max_tokens: 3000
+  product_normalizer:
+    name: Cross-marketplace product normalization
+    description: Derives evidenced comparison identities while preserving material variants.
+    version: "1"
+    model: google/gemini-2.5-flash-lite
+    prompt: product_normalizer/prompt.md
+    structured_output: product_normalizer/output.schema.json
+    settings:
+      temperature: 0
+      max_tokens: 2200
+  product_embedding:
+    name: Product semantic search
+    description: Embeds public product documents and search queries.
+    version: "2"
+    model: openai/text-embedding-3-small
+    endpoint: embeddings
+    prompt: product_embedding/prompt.md
+    settings:
+      dimensions: 1536
+  commerce:
+    name: Commercial facts
+    description: Extracts evidenced payment, promotion and shipping facts from HTML fragments.
+    version: "1"
+    model: google/gemini-2.5-flash-lite
+    prompt: commerce/prompt.md
+    structured_output: commerce/output.schema.json
+    settings:
+      temperature: 0
+      max_tokens: 1800
+  product_classifier:
+    name: Product selection
+    description: Compares parsed product evidence with the search and optional description.
+    version: "1"
+    model: google/gemini-2.5-flash-lite
+    prompt: product_classifier/prompt.md
+    structured_output: product_classifier/output.schema.json
+    settings:
+      temperature: 0
+      max_tokens: 2200
+  navigator:
+    name: HTML navigator
+    description: Proposes a bounded navigation action for the extraction executor.
+    version: "1"
+    model: google/gemini-2.5-flash-lite
+    prompt: navigator/prompt.md
+    structured_output: navigator/output.schema.json
+    structured_output_strict: false
+    settings:
+      max_tokens: 256
+  extractor:
+    name: HTML extractor
+    description: Extracts entities and evidence from a captured HTML document.
+    version: "1"
+    model: google/gemini-2.5-flash-lite
+    prompt: extractor/prompt.md
+    structured_output: extractor/output.schema.json
+    structured_output_strict: false
+    settings:
+      max_tokens: 2048
+  parser_repair:
+    name: Parser repair
+    description: Proposes a parser patch for review using preserved fixtures.
+    version: "1"
+    model: google/gemini-2.5-flash-lite
+    prompt: parser_repair/prompt.md
+    structured_output: parser_repair/output.schema.json
+    settings:
+      max_tokens: 4096

@@ -1,0 +1,85 @@
+{
+  "entity": {
+    "kind": "product",
+    "source_key": "MLB1234567890",
+    "url": "https://produto.mercadolivre.com.br/MLB-1234567890-livro-cto-_JM",
+    "title": "Livro CTO: Guia prático",
+    "description": "Um guia de liderança técnica.",
+    "price": "129.90",
+    "currency": "BRL",
+    "availability": "in_stock",
+    "attributes": {}
+  },
+  "offer": {
+    "price": "129.90",
+    "list_price": "159.90",
+    "currency": "BRL",
+    "availability": "in_stock",
+    "availability_text": "3 unidades disponíveis",
+    "stock_qt": 3,
+    "seller": "Livraria Exemplo",
+    "ships_from": null,
+    "condition": "Novo",
+    "promotions": [
+      {
+        "kind": "coupon",
+        "text": "Cupom de 10% para compras elegíveis",
+        "code": null,
+        "expires_at": null,
+        "requires_activation": null,
+        "discount_amount": null,
+        "discount_percent": null,
+        "minimum_spend": null,
+        "conditions": []
+      }
+    ],
+    "image_urls": [
+      "https://http2.mlstatic.com/D_NQ_NP_123456-MLB00000000000_012026-O.webp"
+    ],
+    "payment_options": [
+      {
+        "method": "installment",
+        "text": "3x R$ 43,30 sem juros",
+        "total_price": null,
+        "installment_count": 3,
+        "installment_price": "43.30",
+        "interest_free": true,
+        "conditions": []
+      }
+    ],
+    "shipping": {
+      "text": "Frete grátis sujeito ao endereço",
+      "price": null,
+      "is_free": true,
+      "destination_postal_code": null,
+      "conditions": []
+    }
+  },
+  "authors": [
+    "Autor Exemplo"
+  ],
+  "isbn": [
+    "9781234567897"
+  ],
+  "specifications": {
+    "Autor": "Autor Exemplo",
+    "ISBN": "9781234567897",
+    "Idioma": "Português",
+    "Número de páginas": "240"
+  },
+  "rating_text": "4.8",
+  "review_count_text": "(12 avaliações)",
+  "catalog": {
+    "category": "book",
+    "brand": null,
+    "model": null,
+    "identifiers": {
+      "isbn": "9781234567897"
+    },
+    "attributes": {
+      "isbn": "9781234567897",
+      "language": "Português",
+      "page_count": 240
+    }
+  }
+}

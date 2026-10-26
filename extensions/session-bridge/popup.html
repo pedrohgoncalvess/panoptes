@@ -1,0 +1,23 @@
+<!doctype html>
+<html lang="pt-BR">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Panoptes — Sessões</title><link rel="stylesheet" href="popup.css"></head>
+<body>
+  <h1>Panoptes</h1>
+  <p>Abra Amazon, Mercado Livre, Pichau ou Terabyte. Conclua a verificação da loja e escolha como coletar.</p>
+  <p id="source">Identificando a aba…</p>
+  <form id="form">
+    <label for="address">Endereço do Panoptes</label>
+    <input id="address" type="url" required value="http://localhost:3000" autocomplete="off">
+    <p class="hint">Mantenha uma aba do Panoptes aberta e entre como administrador.</p>
+    <label for="mode">Como coletar</label>
+    <select id="mode">
+      <option value="local">Neste navegador</option>
+      <option value="docker">Enviar sessão para o navegador do Docker</option>
+    </select>
+    <button id="send" type="submit" disabled>Enviar sessão desta aba</button>
+  </form>
+  <p id="status" role="status" aria-live="polite"></p>
+  <p class="hint">No modo local, esta aba será usada para as coletas: o Panoptes recebe o HTML das páginas solicitadas. Mantenha o navegador, esta aba e uma aba do Panoptes abertos. Desative em Conexões → Desconectar. No modo Docker, cookies e armazenamento da aba são enviados neste clique.</p>
+  <script type="module" src="popup.js"></script>
+</body>
+</html>

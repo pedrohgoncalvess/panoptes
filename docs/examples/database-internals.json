@@ -1,0 +1,7 @@
+{
+  "site": "amazon_br",
+  "term": "Database Internals",
+  "criteria": {"title": "Database Internals", "authors": ["Alex Petrov"]},
+  "max_pages": 1,
+  "refresh_interval_seconds": 86400
+}

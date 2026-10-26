@@ -1,0 +1,59 @@
+{
+  "entity": {
+    "kind": "product",
+    "source_key": "B0FR400001",
+    "url": "https://www.amazon.com.br/dp/B0FR400001",
+    "title": "Geladeira Marca Exemplo Frost Free 400 litros 220V",
+    "description": null,
+    "price": "3200.00",
+    "currency": "BRL",
+    "availability": "out_of_stock",
+    "attributes": {}
+  },
+  "offer": {
+    "price": "3200.00",
+    "list_price": null,
+    "currency": "BRL",
+    "availability": "out_of_stock",
+    "availability_text": "Produto indisponível",
+    "stock_qt": null,
+    "seller": null,
+    "ships_from": null,
+    "condition": null,
+    "promotions": [],
+    "image_urls": [],
+    "payment_options": [],
+    "shipping": null,
+    "shipping_options": [],
+    "stock_lower_bound_qt": null,
+    "units_per_pack": null,
+    "minimum_purchase_qt": null,
+    "maximum_purchase_qt": null,
+    "commercial_extraction": null
+  },
+  "authors": [],
+  "isbn": [],
+  "specifications": {
+    "Marca": "Marca Exemplo",
+    "Modelo": "FR400",
+    "Capacidade total": "400 litros",
+    "Voltagem": "220V",
+    "Cor": "Branco",
+    "Número de portas": "2"
+  },
+  "rating_text": null,
+  "review_count_text": null,
+  "catalog": {
+    "category": "refrigerator",
+    "brand": "Marca Exemplo",
+    "model": "FR400",
+    "identifiers": {},
+    "attributes": {
+      "capacity_liters": "400",
+      "voltage": "220v",
+      "color": "Branco",
+      "frost_free": true,
+      "door_count": 2
+    }
+  }
+}

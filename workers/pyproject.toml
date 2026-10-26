@@ -1,0 +1,15 @@
+[project]
+name = "panoptes-workers"
+version = "0.1.0"
+requires-python = ">=3.12"
+dependencies = ["panoptes-contracts", "panoptes-database", "panoptes-storage", "panoptes-ai", "httpx>=0.28,<1", "selectolax>=0.4,<0.5"]
+
+[tool.uv.sources]
+panoptes-ai = { workspace = true }
+panoptes-contracts = { workspace = true }
+panoptes-database = { workspace = true }
+panoptes-storage = { workspace = true }
+
+[build-system]
+requires = ["hatchling>=1.27,<2"]
+build-backend = "hatchling.build"

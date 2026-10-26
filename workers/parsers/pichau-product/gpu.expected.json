@@ -1,0 +1,145 @@
+{
+  "entity": {
+    "kind": "product",
+    "source_key": "placa-de-video-mancer-geforce-rtx-3070-heimdall-x-8gb-gddr6-256-bit-mcr-rtx3070x",
+    "url": "https://www.pichau.com.br/placa-de-video-mancer-geforce-rtx-3070-heimdall-x-8gb-gddr6-256-bit-mcr-rtx3070x",
+    "title": "Placa de Video Mancer GeForce RTX 3070 Heimdall X, 8GB, GDDR6, 256-bit, MCR-RTX3070X",
+    "description": "Placa de Video Mancer GeForce RTX 3070 Heimdall X, 8GB, GDDR6, 256-bit, MCR-RTX3070X, Processo de Fabricação 8 nm, Núcleos CUDA 5.888, Capacidade de Memória 8 GB, Pichau info",
+    "price": "2199.99",
+    "currency": "BRL",
+    "availability": "in_stock",
+    "attributes": {}
+  },
+  "offer": {
+    "price": "2199.99",
+    "list_price": "3235.27",
+    "currency": "BRL",
+    "availability": "in_stock",
+    "availability_text": "Produto Disponível Sku: MCR-RTX3070X  Produto Disponível Produto Disponível 20% Desconto 43 Disponíveis 20% Desconto 20% 43 Disponíveis 43",
+    "stock_qt": null,
+    "seller": "Pichau",
+    "ships_from": null,
+    "condition": "NewCondition",
+    "promotions": [],
+    "image_urls": [
+      "https://media.pichau.com.br/media/catalog/product/cache/74c1057f7991b4edb2bc7bdaa94de933/m/c/mcr-rtx3070x4.jpg"
+    ],
+    "payment_options": [
+      {
+        "method": "pix",
+        "text": "R$ 2.199,99 à vista no Pix",
+        "total_price": "2199.99",
+        "installment_count": null,
+        "installment_price": null,
+        "interest_free": null,
+        "conditions": [],
+        "total_is_derived": false,
+        "extraction_method": "deterministic"
+      },
+      {
+        "method": "card",
+        "text": "R$ 2.588,22",
+        "total_price": "2588.22",
+        "installment_count": null,
+        "installment_price": null,
+        "interest_free": null,
+        "conditions": [],
+        "total_is_derived": false,
+        "extraction_method": "deterministic"
+      },
+      {
+        "method": "installment",
+        "text": "em até 12x de R$ 215,69",
+        "total_price": "2588.28",
+        "installment_count": 12,
+        "installment_price": "215.69",
+        "interest_free": null,
+        "conditions": [
+          "em até 12x de R$ 215,69"
+        ],
+        "total_is_derived": true,
+        "extraction_method": "deterministic"
+      }
+    ],
+    "shipping": null,
+    "shipping_options": [],
+    "stock_lower_bound_qt": null,
+    "units_per_pack": null,
+    "minimum_purchase_qt": null,
+    "maximum_purchase_qt": null,
+    "commercial_extraction": {
+      "version": "1.0.1",
+      "evidence": [
+        {
+          "field": "price",
+          "locator": "[class*=\"-price_vista-\"],[class$=\"-price_vista\"]",
+          "excerpt": "R$ 2.199,99",
+          "method": "deterministic"
+        },
+        {
+          "field": "availability",
+          "locator": "[class*=\"-availability\"],[class*=\"-stock\"],[class*=\"-product_info_stock\"],[class*=\"-priceWrapper\"] [class*=\"-addToCartWrapper\"]",
+          "excerpt": "Produto Disponível Sku: MCR-RTX3070X  Produto Disponível Produto Disponível 20% Desconto 43 Disponíveis 20% Desconto 20% 43 Disponíveis 43",
+          "method": "deterministic"
+        },
+        {
+          "field": "payment_options",
+          "locator": "[class*=\"-price_total\"],[class*=\"-price_parcelado_text\"],[class*=\"-priceTotal\"],[class*=\"-installmentsPrice\"] > p:not([class*=\"-priceTotal\"])",
+          "excerpt": "R$ 2.588,22",
+          "method": "deterministic"
+        },
+        {
+          "field": "payment_options",
+          "locator": "[class*=\"-price_total\"],[class*=\"-price_parcelado_text\"],[class*=\"-priceTotal\"],[class*=\"-installmentsPrice\"] > p:not([class*=\"-priceTotal\"])",
+          "excerpt": "em até 12x de R$ 215,69",
+          "method": "deterministic"
+        },
+        {
+          "field": "payment_options",
+          "locator": "[class*=\"-price_total\"],[class*=\"-price_parcelado_text\"],[class*=\"-priceTotal\"],[class*=\"-installmentsPrice\"] > p:not([class*=\"-priceTotal\"])",
+          "excerpt": "sem juros no cartão",
+          "method": "deterministic"
+        }
+      ],
+      "unresolved": [],
+      "fallback_status": "not_needed",
+      "model": null,
+      "input_tokens": null,
+      "output_tokens": null
+    }
+  },
+  "authors": [],
+  "isbn": [],
+  "specifications": {
+    "Marca": "Mancer",
+    "Modelo": "MCR-RTX3070X",
+    "Processo de Fabricação": "8 nm",
+    "Núcleos CUDA": "5.888",
+    "Clock Base": "1500 MHz",
+    "Clock em Boost": "1725 MHz",
+    "Capacidade de Memória": "8 GB",
+    "Tipo de Memória": "GDDR6",
+    "Clock da Memória": "1750 MHz",
+    "Largura de Banda da Memória": "448 GB/s",
+    "Barramento de Memória": "256 bits",
+    "TDP": "220 W",
+    "Tipo de Interface": "PCIe 4.0",
+    "Interface de Saída": "HDMI / DP *3",
+    "Interface de Alimentação": "8 + 8 pinos",
+    "Sistema de Resfriamento": "Dual fan",
+    "Dimensões (sem suporte)": "272 x 119 x 48 mm",
+    "Peso": "790 g"
+  },
+  "rating_text": null,
+  "review_count_text": null,
+  "catalog": {
+    "category": "other",
+    "brand": "Mancer",
+    "model": "MCR-RTX3070X",
+    "identifiers": {
+      "gtin": "7901060205431",
+      "mpn": "MCR-RTX3070X"
+    },
+    "attributes": {}
+  }
+}

@@ -1,0 +1,138 @@
+{
+  "$defs": {
+    "CategoryChoice": {
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "anyOf": [
+            {
+              "format": "uuid",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Id"
+        },
+        "name": {
+          "maxLength": 100,
+          "minLength": 1,
+          "title": "Name",
+          "type": "string"
+        },
+        "evidence": {
+          "maxLength": 800,
+          "minLength": 1,
+          "title": "Evidence",
+          "type": "string"
+        },
+        "creation_reason": {
+          "maxLength": 800,
+          "title": "Creation Reason",
+          "type": "string"
+        },
+        "exceptional": {
+          "title": "Exceptional",
+          "type": "boolean"
+        },
+        "subcategories": {
+          "items": {
+            "$ref": "#/$defs/TaxonChoice"
+          },
+          "maxItems": 10,
+          "title": "Subcategories",
+          "type": "array"
+        }
+      },
+      "required": [
+        "id",
+        "name",
+        "evidence",
+        "creation_reason",
+        "exceptional",
+        "subcategories"
+      ],
+      "title": "CategoryChoice",
+      "type": "object"
+    },
+    "TaxonChoice": {
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "anyOf": [
+            {
+              "format": "uuid",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Id"
+        },
+        "name": {
+          "maxLength": 100,
+          "minLength": 1,
+          "title": "Name",
+          "type": "string"
+        },
+        "evidence": {
+          "maxLength": 800,
+          "minLength": 1,
+          "title": "Evidence",
+          "type": "string"
+        },
+        "creation_reason": {
+          "maxLength": 800,
+          "title": "Creation Reason",
+          "type": "string"
+        },
+        "exceptional": {
+          "title": "Exceptional",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "id",
+        "name",
+        "evidence",
+        "creation_reason",
+        "exceptional"
+      ],
+      "title": "TaxonChoice",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "categories": {
+      "items": {
+        "$ref": "#/$defs/CategoryChoice"
+      },
+      "maxItems": 8,
+      "minItems": 1,
+      "title": "Categories",
+      "type": "array"
+    },
+    "confidence": {
+      "maximum": 1,
+      "minimum": 0,
+      "title": "Confidence",
+      "type": "number"
+    },
+    "reason": {
+      "maxLength": 1000,
+      "minLength": 1,
+      "title": "Reason",
+      "type": "string"
+    }
+  },
+  "required": [
+    "categories",
+    "confidence",
+    "reason"
+  ],
+  "title": "Classification",
+  "type": "object"
+}

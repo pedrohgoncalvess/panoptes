@@ -1,0 +1,135 @@
+name: panoptes
+x-database-env: &database-env
+  DATABASE_URL: postgresql+asyncpg://${POSTGRES_USER:-postgres}:${POSTGRES_PASSWORD:-postgres}@postgres:5432/${POSTGRES_DB:-postgres}
+  DB_POOL_MIN: ${DB_POOL_MIN:-2}
+  DB_POOL_MAX: ${DB_POOL_MAX:-10}
+x-storage-env: &storage-env
+  S3_ENDPOINT_URL: http://minio:9000
+  S3_PUBLIC_ENDPOINT_URL: http://localhost:${S3_PORT:-9000}
+  S3_ACCESS_KEY: ${MINIO_ROOT_USER:-minioadmin}
+  S3_SECRET_KEY: ${MINIO_ROOT_PASSWORD:-minioadmin}
+  S3_BUCKET: ${S3_BUCKET:-panoptes}
+
+services:
+  frontend:
+    build:
+      context: .
+      dockerfile: frontend/Dockerfile
+    environment:
+      PANOPTES_API_URL: http://backend:8000
+      HOST: 0.0.0.0
+      PORT: 3000
+    ports: ["127.0.0.1:${FRONTEND_PORT:-3000}:3000"]
+    depends_on:
+      backend: { condition: service_healthy }
+    init: true
+    healthcheck:
+      test: ["CMD", "node", "-e", "fetch('http://127.0.0.1:3000/login').then(r => {if (!r.ok) process.exit(1)}).catch(() => process.exit(1))"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+  minio-volume-init:
+    image: minio/minio:RELEASE.2025-04-22T22-12-26Z
+    user: "0:0"
+    entrypoint: ["/bin/sh", "-c"]
+    command: ["chown 10001:10001 /data"]
+    volumes: ["minio_data:/data"]
+    restart: "no"
+  minio:
+    image: minio/minio:RELEASE.2025-04-22T22-12-26Z
+    user: "10001:10001"
+    command: ["server", "/data", "--console-address", ":9001"]
+    environment:
+      MINIO_ROOT_USER: ${MINIO_ROOT_USER:-minioadmin}
+      MINIO_ROOT_PASSWORD: ${MINIO_ROOT_PASSWORD:-minioadmin}
+      HOME: /tmp
+    ports: ["127.0.0.1:${S3_PORT:-9000}:9000", "127.0.0.1:${MINIO_CONSOLE_PORT:-9001}:9001"]
+    volumes: ["minio_data:/data"]
+    depends_on:
+      minio-volume-init: { condition: service_completed_successfully }
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:9000/minio/health/ready"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+  postgres:
+    image: pgvector/pgvector:0.8.2-pg17-bookworm
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-postgres}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-postgres}
+      POSTGRES_DB: ${POSTGRES_DB:-postgres}
+      TZ: America/Sao_Paulo
+    command: ["postgres", "-c", "timezone=America/Sao_Paulo"]
+    ports: ["127.0.0.1:${POSTGRES_PORT:-5432}:5432"]
+    volumes: ["postgres_data:/var/lib/postgresql/data"]
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $$POSTGRES_USER -d $$POSTGRES_DB"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+  migrations:
+    build:
+      context: .
+      args: { SERVICE: migrations }
+    command: ["python", "-m", "panoptes_migrations.main"]
+    environment:
+      MIGRATIONS_DATABASE_URL: postgresql+psycopg://${POSTGRES_USER:-postgres}:${POSTGRES_PASSWORD:-postgres}@postgres:5432/${POSTGRES_DB:-postgres}
+    depends_on:
+      postgres: { condition: service_healthy }
+    restart: "no"
+  backend:
+    build:
+      context: .
+      args: { SERVICE: backend }
+    command: ["python", "-m", "panoptes_backend.launch"]
+    init: true
+    environment:
+      <<: [*database-env, *storage-env]
+      JWT_SECRET: ${JWT_SECRET:-panoptes-local-development-jwt-secret-change-me}
+      SUPERUSER_NAME: ${SUPERUSER_NAME:-}
+      SUPERUSER_EMAIL: ${SUPERUSER_EMAIL:-}
+      SUPERUSER_PASSWORD: ${SUPERUSER_PASSWORD:-}
+      WEBHOOK_ALLOW_PRIVATE_NETWORKS: ${WEBHOOK_ALLOW_PRIVATE_NETWORKS:-false}
+      BROWSER_SESSION_KEY: ${BROWSER_SESSION_KEY:-}
+      BROWSER_SERVICE_TOKEN: ${BROWSER_SERVICE_TOKEN:-}
+      BROWSER_SESSION_DIR: /app/.browser-sessions
+      OPENROUTER_API_KEY: ${OPENROUTER_API_KEY:-}
+      OPENROUTER_SYNC_INTERVAL_SECONDS: ${OPENROUTER_SYNC_INTERVAL_SECONDS:-3600}
+      BROWSER_MERCADO_LIVRE_HEADLESS: ${BROWSER_MERCADO_LIVRE_HEADLESS:-false}
+      BROWSER_RETAIL_HEADLESS: ${BROWSER_RETAIL_HEADLESS:-false}
+    volumes: ["browser_sessions:/app/.browser-sessions"]
+    shm_size: 1gb
+    ports: ["127.0.0.1:${BACKEND_PORT:-8000}:8000"]
+    depends_on:
+      migrations: { condition: service_completed_successfully }
+      minio: { condition: service_healthy }
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8000/health/ready', timeout=3)"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+  workers:
+    build:
+      context: .
+      args: { SERVICE: workers }
+    command: ["python", "-m", "panoptes_workers.main"]
+    environment:
+      OPENROUTER_API_KEY: ${OPENROUTER_API_KEY:-}
+      COMMERCE_LLM_ENABLED: ${COMMERCE_LLM_ENABLED:-true}
+      PRODUCT_CLASSIFIER_ENABLED: ${PRODUCT_CLASSIFIER_ENABLED:-true}
+      PRODUCT_NORMALIZER_ENABLED: ${PRODUCT_NORMALIZER_ENABLED:-true}
+      TAXONOMY_NORMALIZER_ENABLED: ${TAXONOMY_NORMALIZER_ENABLED:-true}
+      <<: [*database-env, *storage-env]
+      AMAZON_REQUEST_INTERVAL_SECONDS: ${AMAZON_REQUEST_INTERVAL_SECONDS:-1.5}
+      BROWSER_SERVICE_URL: ${BROWSER_SERVICE_URL:-}
+      BROWSER_SERVICE_TOKEN: ${BROWSER_SERVICE_TOKEN:-}
+    depends_on:
+      backend: { condition: service_healthy }
+      migrations: { condition: service_completed_successfully }
+      minio: { condition: service_healthy }
+    init: true
+
+volumes:
+  postgres_data:
+  minio_data:
+  browser_sessions:

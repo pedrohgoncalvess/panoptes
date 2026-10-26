@@ -1,0 +1,25 @@
+{
+  "id": "11111111-1111-4111-8111-000000000001",
+  "version": 1,
+  "event": "extraction_started",
+  "occurred_at": "2026-10-24T12:00:00+00:00",
+  "routine_id": "66666666-6666-4666-8666-666666666666",
+  "data": {
+    "request_id": "55555555-5555-4555-8555-555555555555",
+    "mode": "discover",
+    "status": "running"
+  },
+  "matched_rules": [
+    {
+      "event": "extraction_started",
+      "routine_ids": [
+        "66666666-6666-4666-8666-666666666666"
+      ],
+      "entity_id": null,
+      "currency": "BRL",
+      "threshold": null,
+      "direction": "below",
+      "percent": null
+    }
+  ]
+}

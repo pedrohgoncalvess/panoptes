@@ -1,0 +1,46 @@
+{
+  "additionalProperties": false,
+  "properties": {
+    "parser_slug": {
+      "minLength": 1,
+      "title": "Parser Slug",
+      "type": "string"
+    },
+    "base_version": {
+      "minLength": 1,
+      "title": "Base Version",
+      "type": "string"
+    },
+    "proposed_version": {
+      "minLength": 1,
+      "title": "Proposed Version",
+      "type": "string"
+    },
+    "explanation": {
+      "title": "Explanation",
+      "type": "string"
+    },
+    "unified_diff": {
+      "title": "Unified Diff",
+      "type": "string"
+    },
+    "fixtures_to_verify": {
+      "items": {
+        "type": "string"
+      },
+      "minItems": 1,
+      "title": "Fixtures To Verify",
+      "type": "array"
+    }
+  },
+  "required": [
+    "parser_slug",
+    "base_version",
+    "proposed_version",
+    "explanation",
+    "unified_diff",
+    "fixtures_to_verify"
+  ],
+  "title": "ParserRepairProposal",
+  "type": "object"
+}

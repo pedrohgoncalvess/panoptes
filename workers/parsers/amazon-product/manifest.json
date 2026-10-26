@@ -1,0 +1,30 @@
+{
+  "contract_version": "1.0",
+  "slug": "amazon-product",
+  "version": "1.0.1",
+  "hosts": [
+    "www.amazon.com.br"
+  ],
+  "entity_kind": "product",
+  "entrypoint": "panoptes_workers.amazon.product:parse_catalog_product",
+  "fixtures": [
+    {
+      "name": "television-conditional-offer",
+      "html_path": "television.html",
+      "expected_path": "television.expected.json",
+      "provenance": "synthetic"
+    },
+    {
+      "name": "refrigerator-variant",
+      "html_path": "refrigerator.html",
+      "expected_path": "refrigerator.expected.json",
+      "provenance": "synthetic"
+    },
+    {
+      "name": "school-supplies-pack",
+      "html_path": "school-supplies.html",
+      "expected_path": "school-supplies.expected.json",
+      "provenance": "synthetic"
+    }
+  ]
+}

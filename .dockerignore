@@ -1,0 +1,15 @@
+**/.env
+**/.env.*
+**/.venv
+**/__pycache__
+**/.pytest_cache
+.git
+.uv-cache
+artifacts
+**/node_modules
+**/.svelte-kit
+frontend/build
+frontend/dist
+.browser-sessions
+**/.ruff_cache
+**/.pytest-tmp*

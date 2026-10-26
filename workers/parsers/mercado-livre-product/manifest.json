@@ -1,0 +1,26 @@
+{
+  "contract_version": "1.0",
+  "slug": "mercado-livre-product",
+  "version": "1.0.1",
+  "hosts": [
+    "www.mercadolivre.com.br",
+    "produto.mercadolivre.com.br",
+    "lista.mercadolivre.com.br"
+  ],
+  "entity_kind": "product",
+  "entrypoint": "panoptes_workers.mercado_livre.product:parse_catalog_product",
+  "fixtures": [
+    {
+      "name": "book-commercial-offer",
+      "html_path": "book.html",
+      "expected_path": "book.expected.json",
+      "provenance": "synthetic"
+    },
+    {
+      "name": "unknown-price-and-stock",
+      "html_path": "unknown.html",
+      "expected_path": "unknown.expected.json",
+      "provenance": "synthetic"
+    }
+  ]
+}

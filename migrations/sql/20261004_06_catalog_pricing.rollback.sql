@@ -1,0 +1,11 @@
+DROP TABLE "pricing"."shipping_quote";
+DROP TABLE "pricing"."payment_option";
+DROP TABLE "pricing"."promotion";
+DROP TABLE "pricing"."observation";
+DROP TABLE "pricing"."offer";
+DROP TABLE "catalog"."listing";
+DROP TABLE "catalog"."variant";
+DROP TABLE "catalog"."product";
+ALTER TABLE "scraping"."search_term" DROP COLUMN max_candidates_qt;
+DROP SCHEMA "pricing";
+DROP SCHEMA "catalog";

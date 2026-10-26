@@ -1,0 +1,67 @@
+{
+  "$defs": {
+    "Check": {
+      "additionalProperties": false,
+      "properties": {
+        "requirement": {
+          "enum": [
+            "query",
+            "description"
+          ],
+          "title": "Requirement",
+          "type": "string"
+        },
+        "status": {
+          "enum": [
+            "matched",
+            "mismatch",
+            "missing"
+          ],
+          "title": "Status",
+          "type": "string"
+        },
+        "field": {
+          "title": "Field",
+          "type": "string"
+        },
+        "excerpt": {
+          "maxLength": 1000,
+          "title": "Excerpt",
+          "type": "string"
+        },
+        "explanation": {
+          "maxLength": 500,
+          "minLength": 1,
+          "title": "Explanation",
+          "type": "string"
+        }
+      },
+      "required": [
+        "requirement",
+        "status",
+        "field",
+        "excerpt",
+        "explanation"
+      ],
+      "title": "Check",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "checks": {
+      "items": {
+        "$ref": "#/$defs/Check"
+      },
+      "maxItems": 2,
+      "minItems": 1,
+      "title": "Checks",
+      "type": "array"
+    }
+  },
+  "required": [
+    "checks"
+  ],
+  "title": "Result",
+  "type": "object"
+}

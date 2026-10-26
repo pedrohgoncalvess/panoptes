@@ -1,0 +1,24 @@
+{
+  "contract_version": "1.0",
+  "slug": "amazon-book",
+  "version": "1.0.0",
+  "hosts": [
+    "www.amazon.com.br"
+  ],
+  "entity_kind": "product",
+  "entrypoint": "panoptes_workers.amazon.detail:parse_product",
+  "fixtures": [
+    {
+      "name": "synthetic-offer",
+      "html_path": "product.html",
+      "expected_path": "expected.json",
+      "provenance": "synthetic"
+    },
+    {
+      "name": "sanitized-live-product",
+      "html_path": "product.captured.html",
+      "expected_path": "captured.expected.json",
+      "provenance": "sanitized_capture"
+    }
+  ]
+}

@@ -1,0 +1,9 @@
+{
+  "site":"amazon_br", "term":"tv 50 polegadas",
+  "criteria":{
+    "match_mode":"category", "category":"television",
+    "required_attributes":{"screen_size_inches":50},
+    "brands":[], "exclude_accessories":true
+  },
+  "max_pages":5, "max_candidates":100, "refresh_interval_seconds":86400
+}

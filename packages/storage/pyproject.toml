@@ -1,0 +1,12 @@
+[project]
+name = "panoptes-storage"
+version = "0.1.0"
+requires-python = ">=3.12"
+dependencies = ["panoptes-contracts", "aiobotocore>=2.21,<4"]
+
+[tool.uv.sources]
+panoptes-contracts = { workspace = true }
+
+[build-system]
+requires = ["hatchling>=1.27,<2"]
+build-backend = "hatchling.build"

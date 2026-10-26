@@ -1,0 +1,42 @@
+{
+  "status": "success",
+  "entities": [
+    {
+      "kind": "product",
+      "source_key": "synthetic-001",
+      "url": "https://www.amazon.com.br/synthetic/product-001",
+      "title": "Produto de exemplo",
+      "price": "19.90",
+      "currency": "BRL",
+      "availability": "in_stock",
+      "attributes": {}
+    }
+  ],
+  "confidence": "1",
+  "evidence": [
+    {
+      "entity_source_key": "synthetic-001",
+      "field": "source_key",
+      "snapshot_id": "00000000-0000-4000-8000-000000000001",
+      "locator": "/sku",
+      "method": "json_pointer",
+      "excerpt": "synthetic-001"
+    },
+    {
+      "entity_source_key": "synthetic-001",
+      "field": "url",
+      "snapshot_id": "00000000-0000-4000-8000-000000000001",
+      "locator": "/url",
+      "method": "json_pointer",
+      "excerpt": "https://www.amazon.com.br/synthetic/product-001"
+    },
+    {
+      "entity_source_key": "synthetic-001",
+      "field": "title",
+      "snapshot_id": "00000000-0000-4000-8000-000000000001",
+      "locator": "/name",
+      "method": "json_pointer",
+      "excerpt": "Produto de exemplo"
+    }
+  ]
+}

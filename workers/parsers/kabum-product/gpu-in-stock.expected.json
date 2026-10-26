@@ -1,0 +1,98 @@
+{
+  "entity": {
+    "kind": "product",
+    "source_key": "995288",
+    "url": "https://www.kabum.com.br/produto/995288/placa-de-video-husky-alpha-rtx-3070-nvidia-8gb-gddr6-256-bit-dual-fan-hdmi-3x-displayport-hvg3070",
+    "title": "Placa de Vídeo Husky Alpha RTX 3070, NVIDIA, 8GB, GDDR6, 256-Bit, Dual Fan, HDMI, 3x DisplayPort - HVG3070",
+    "description": "Desempenho Extremo com a Arquitetura NVIDIA AmpereA Placa de Vídeo Husky Alpha RTX 3070 transforma o seu setup e entrega o verdadeiro significado de performance gamer. Com a Arquitetura NVIDIA Ampere, o chip entrega um alto desempenho com taxas de transferência dobradas em relação à geração anterior. Isso permite processar muito mais geometrias por segundo, garantindo que os seus jogos mais pesados rodem com a agilidade e a estabilidade que você deseja. Imersão Visual com Ray Tracing e Suporte a 4K 120HzPara elevar a sua experiência gráfica a um novo patamar, a GPU conta com a poderosa tecnologia de Ray Tracing. A renderização da placa simula o comportamento da luz no mundo real, criando sombras, reflexos e iluminações mais realistas em jogos e aplicações 3D, entregando mais que o dobro de desempenho computacional da geração passada. E o mais insano é o suporte a 4K 120Hz, que permite que você rode os seus títulos favoritos em altíssima resolução, assegurando o máximo de imersão e visuais de tirar o fôlego durante as suas gameplays. Mais FPS e Fluidez com NVIDIA DLSS e NVIDIA ReflexTenha a vantagem competitiva e a performance do seu sistema com os recursos NVIDIA DLSS e NVIDIA Reflex. O DLSS processa os quadros dos jogos em uma resolução menor para reduzir a carga na placa de vídeo e, com o auxílio de Inteligência Artificial, reconstrói a imagem final em alta resolução. Isso permite que a taxa de quadros por segundo seja muito maior, sem sacrificar a qualidade gráfica. Já o NVIDIA Reflex foca na precisão, pois reduz a latência do sistema e melhora a fluidez geral. O resultado é uma resposta imediata aos seus cliques e comandos, um recurso essencial para garantir a vitória em jogos competitivos.",
+    "price": "2299.99",
+    "currency": "BRL",
+    "availability": "in_stock",
+    "attributes": {}
+  },
+  "offer": {
+    "price": "2299.99",
+    "list_price": null,
+    "currency": "BRL",
+    "availability": "in_stock",
+    "availability_text": null,
+    "stock_qt": null,
+    "seller": "KaBuM!",
+    "ships_from": null,
+    "condition": null,
+    "promotions": [],
+    "image_urls": [
+      "https://images.kabum.com.br/produtos/fotos/995288/placa-de-video-husky-alpha-rtx-3070-nvidia-8gb-gddr6-256-bit-dual-fan-hdmi-3x-displayport-hvg3070_1791483931_g.jpg"
+    ],
+    "payment_options": [
+      {
+        "method": "pix",
+        "text": "Preço à vista no Pix",
+        "total_price": "2299.99",
+        "installment_count": null,
+        "installment_price": null,
+        "interest_free": null,
+        "conditions": [],
+        "total_is_derived": false,
+        "extraction_method": "deterministic"
+      },
+      {
+        "method": "card",
+        "text": "Preço no cartão",
+        "total_price": "2555.54",
+        "installment_count": null,
+        "installment_price": null,
+        "interest_free": null,
+        "conditions": [],
+        "total_is_derived": false,
+        "extraction_method": "deterministic"
+      }
+    ],
+    "shipping": null,
+    "shipping_options": [],
+    "stock_lower_bound_qt": null,
+    "units_per_pack": null,
+    "minimum_purchase_qt": null,
+    "maximum_purchase_qt": null,
+    "commercial_extraction": {
+      "version": "1.0.1",
+      "evidence": [
+        {
+          "field": "availability",
+          "locator": "Product.offers.availability",
+          "excerpt": "https://schema.org/InStock",
+          "method": "deterministic"
+        },
+        {
+          "field": "price",
+          "locator": "Product.offers.price",
+          "excerpt": "2299.99",
+          "method": "deterministic"
+        },
+        {
+          "field": "price",
+          "locator": "#__NEXT_DATA__:pageProps.product.prices.priceWithDiscount",
+          "excerpt": "2299.99",
+          "method": "deterministic"
+        }
+      ],
+      "unresolved": [],
+      "fallback_status": "not_needed",
+      "model": null,
+      "input_tokens": null,
+      "output_tokens": null
+    }
+  },
+  "authors": [],
+  "isbn": [],
+  "specifications": {},
+  "rating_text": null,
+  "review_count_text": null,
+  "catalog": {
+    "category": "other",
+    "brand": "Husky",
+    "model": null,
+    "identifiers": {},
+    "attributes": {}
+  }
+}

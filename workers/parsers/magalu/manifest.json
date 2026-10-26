@@ -1,0 +1,18 @@
+{
+  "contract_version": "1.0",
+  "slug": "magalu",
+  "version": "0.1.0",
+  "hosts": [
+    "www.magazineluiza.com.br"
+  ],
+  "entity_kind": "product",
+  "entrypoint": null,
+  "fixtures": [
+    {
+      "name": "synthetic-product",
+      "html_path": "product.html",
+      "expected_path": "expected.json",
+      "provenance": "synthetic"
+    }
+  ]
+}

@@ -1,0 +1,50 @@
+{
+  "entity": {
+    "kind": "product",
+    "source_key": "B0SC120001",
+    "url": "https://www.amazon.com.br/dp/B0SC120001",
+    "title": "Caixa de lápis escolares 12 unidades",
+    "description": null,
+    "price": "19.90",
+    "currency": "BRL",
+    "availability": "unknown",
+    "attributes": {}
+  },
+  "offer": {
+    "price": "19.90",
+    "list_price": null,
+    "currency": "BRL",
+    "availability": "unknown",
+    "availability_text": null,
+    "stock_qt": null,
+    "seller": null,
+    "ships_from": null,
+    "condition": null,
+    "promotions": [],
+    "image_urls": [],
+    "payment_options": [],
+    "shipping": null
+  },
+  "authors": [],
+  "isbn": [],
+  "specifications": {
+    "Marca": "Marca Exemplo",
+    "Material": "Madeira",
+    "Contagem de unidades": "12",
+    "Cor": "Multicolorido"
+  },
+  "rating_text": null,
+  "review_count_text": null,
+  "catalog": {
+    "category": "school_supplies",
+    "brand": "Marca Exemplo",
+    "model": null,
+    "identifiers": {},
+    "attributes": {
+      "item_type": "lapis",
+      "units_per_pack": 12,
+      "material": "Madeira",
+      "color": "Multicolorido"
+    }
+  }
+}

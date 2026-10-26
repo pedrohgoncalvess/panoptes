@@ -1,0 +1,50 @@
+{
+  "entity": {
+    "kind": "product",
+    "source_key": "1492040347",
+    "url": "https://www.amazon.com.br/dp/1492040347",
+    "title": "Database Internals: A Deep Dive Into How Distributed Data Systems Work",
+    "description": null,
+    "price": "271.65",
+    "currency": "BRL",
+    "availability": "in_stock",
+    "attributes": {}
+  },
+  "offer": {
+    "price": "271.65",
+    "list_price": null,
+    "currency": "BRL",
+    "availability": "in_stock",
+    "availability_text": "Em estoque",
+    "stock_qt": null,
+    "seller": null,
+    "ships_from": null,
+    "condition": null,
+    "promotions": [],
+    "image_urls": [
+      "https://m.media-amazon.com/images/I/91UYIt74czL._SL1500_.jpg"
+    ]
+  },
+  "authors": [
+    "Alex Petrov"
+  ],
+  "isbn": [
+    "1492040347",
+    "978-1492040347"
+  ],
+  "specifications": {
+    "Editora": "O'Reilly Media",
+    "Data da publicação": "5 novembro 2019",
+    "Edição": "1ª",
+    "Idioma": "Inglês",
+    "Número de páginas": "370 páginas",
+    "ISBN-10": "1492040347",
+    "ISBN-13": "978-1492040347",
+    "Peso do produto": "1,05 Kilograms",
+    "Dimensões": "17.78 x 1.91 x 22.86 cm",
+    "Ranking dos mais vendidos": "Nº 36.075 em Livros ( Conheça o Top 100 na categoria Livros ) Nº 7 em Importados de Base de dados Nº 37 em Importados de Programação de Computadores",
+    "Avaliações dos clientes": "4,5 4,5 de 5 estrelas (559)"
+  },
+  "rating_text": "4,5 4,5 de 5 estrelas",
+  "review_count_text": "(559)"
+}

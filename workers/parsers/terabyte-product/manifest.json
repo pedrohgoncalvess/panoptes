@@ -1,0 +1,25 @@
+{
+  "contract_version": "1.0",
+  "slug": "terabyte-product",
+  "version": "1.0.0",
+  "hosts": [
+    "www.terabyteshop.com.br",
+    "terabyteshop.com.br"
+  ],
+  "entity_kind": "product",
+  "entrypoint": "panoptes_workers.retailers.terabyte:parse_catalog_product",
+  "fixtures": [
+    {
+      "name": "gpu-out-of-stock",
+      "html_path": "gpu-out-of-stock.html",
+      "expected_path": "gpu-out-of-stock.expected.json",
+      "provenance": "sanitized_capture"
+    },
+    {
+      "name": "ssd",
+      "html_path": "ssd.html",
+      "expected_path": "ssd.expected.json",
+      "provenance": "sanitized_capture"
+    }
+  ]
+}

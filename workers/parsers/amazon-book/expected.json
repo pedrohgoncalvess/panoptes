@@ -1,0 +1,55 @@
+{
+  "entity": {
+    "kind": "product",
+    "source_key": "1492040347",
+    "url": "https://www.amazon.com.br/dp/1492040347",
+    "title": "Database Internals: A Deep Dive Into How Distributed Data Systems Work",
+    "description": "Descrição sintética para testes.",
+    "price": "399.90",
+    "currency": "BRL",
+    "availability": "in_stock",
+    "attributes": {}
+  },
+  "offer": {
+    "price": "399.90",
+    "list_price": "499.90",
+    "currency": "BRL",
+    "availability": "in_stock",
+    "availability_text": "Em estoque. Restam 3 unidades.",
+    "stock_qt": 3,
+    "seller": "Loja de exemplo",
+    "ships_from": null,
+    "condition": null,
+    "promotions": [
+      {
+        "kind": "coupon",
+        "text": "Aplicar cupom de 10% em compras elegíveis.",
+        "code": null,
+        "expires_at": null,
+        "requires_activation": null
+      },
+      {
+        "kind": "promotion",
+        "text": "Oferta por tempo limitado",
+        "code": null,
+        "expires_at": null,
+        "requires_activation": null
+      }
+    ],
+    "image_urls": [
+      "https://m.media-amazon.com/images/I/demo-large.jpg"
+    ]
+  },
+  "authors": [
+    "Alex Petrov"
+  ],
+  "isbn": [
+    "978-1492040347"
+  ],
+  "specifications": {
+    "ISBN-13": "978-1492040347",
+    "Idioma": "Inglês"
+  },
+  "rating_text": "4,8 de 5 estrelas",
+  "review_count_text": "100 avaliações"
+}

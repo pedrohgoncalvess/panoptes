@@ -1,0 +1,126 @@
+{
+  "entity": {
+    "kind": "product",
+    "source_key": "31563",
+    "url": "https://www.terabyteshop.com.br/produto/31563/ssd-kingston-nv3-500gb-m2-nvme-2280-pcie-40-leitura-5000mbs-e-gravacao-3000mbs-snv3s500g",
+    "title": "SSD Kingston NV3, 500GB, M.2 NVMe, 2280, PCIe 4.0, Leitura 5000MBs e Gravação 3000MBs, SNV3S/500G",
+    "description": "SSD Kingston NV3 de 500GB com interface PCIe 4.0. Alcance 5000MB/s de leitura para carregar arquivos pesados e jogos com máxima rapidez. Garanta o seu na Terabyte!",
+    "price": "729.90",
+    "currency": "BRL",
+    "availability": "in_stock",
+    "attributes": {}
+  },
+  "offer": {
+    "price": "729.90",
+    "list_price": "1199.90",
+    "currency": "BRL",
+    "availability": "in_stock",
+    "availability_text": "Pronta entrega",
+    "stock_qt": 48,
+    "seller": "TerabyteShop",
+    "ships_from": null,
+    "condition": "NewCondition",
+    "promotions": [],
+    "image_urls": [
+      "https://img.terabyteshop.com.br/produto/p/ssd-kingston-nv3-500gb-m2-nvme-2280-pcie-40-leitura-5000mbs-e-gravacao-3000mbs-snv3s500g_211581.jpg"
+    ],
+    "payment_options": [
+      {
+        "method": "pix",
+        "text": "R$ 729,90 à vista no Pix",
+        "total_price": "729.90",
+        "installment_count": null,
+        "installment_price": null,
+        "interest_free": null,
+        "conditions": [],
+        "total_is_derived": false,
+        "extraction_method": "deterministic"
+      },
+      {
+        "method": "installment",
+        "text": " R$ 858,71 em até 12x de R$ 71,56  sem juros no cartão  ",
+        "total_price": "858.72",
+        "installment_count": 12,
+        "installment_price": "71.56",
+        "interest_free": true,
+        "conditions": [
+          " R$ 858,71 em até 12x de R$ 71,56  sem juros no cartão  "
+        ],
+        "total_is_derived": true,
+        "extraction_method": "deterministic"
+      },
+      {
+        "method": "card",
+        "text": "R$ 858,71",
+        "total_price": "858.71",
+        "installment_count": null,
+        "installment_price": null,
+        "interest_free": null,
+        "conditions": [],
+        "total_is_derived": false,
+        "extraction_method": "deterministic"
+      }
+    ],
+    "shipping": null,
+    "shipping_options": [],
+    "stock_lower_bound_qt": null,
+    "units_per_pack": null,
+    "minimum_purchase_qt": null,
+    "maximum_purchase_qt": null,
+    "commercial_extraction": {
+      "version": "1.0.1",
+      "evidence": [
+        {
+          "field": "price",
+          "locator": ".AreaInfvlrpdt .valVista:not(.prodEsgPreco)",
+          "excerpt": "R$ 729,90",
+          "method": "deterministic"
+        },
+        {
+          "field": "availability",
+          "locator": ".AreaInfvlrpdt .disp-ok,#indisponivel",
+          "excerpt": "Pronta entrega",
+          "method": "deterministic"
+        },
+        {
+          "field": "payment_options",
+          "locator": ".AreaInfvlrpdt .valParc,.AreaInfvlrpdt .val-parc",
+          "excerpt": " R$ 858,71 em até 12x de R$ 71,56  sem juros no cartão  ",
+          "method": "deterministic"
+        },
+        {
+          "field": "payment_options",
+          "locator": ".AreaInfvlrpdt .valParc,.AreaInfvlrpdt .val-parc",
+          "excerpt": "R$ 858,71",
+          "method": "deterministic"
+        },
+        {
+          "field": "stock_qt",
+          "locator": ".AreaInfvlrpdt .discount-bar__left",
+          "excerpt": "Restam 48",
+          "method": "deterministic"
+        }
+      ],
+      "unresolved": [],
+      "fallback_status": "not_needed",
+      "model": null,
+      "input_tokens": null,
+      "output_tokens": null
+    }
+  },
+  "authors": [],
+  "isbn": [],
+  "specifications": {},
+  "rating_text": null,
+  "review_count_text": null,
+  "catalog": {
+    "category": "other",
+    "brand": "Kingston",
+    "model": "SNV3S/500G",
+    "identifiers": {
+      "gtin13": "740617344806",
+      "mpn": "SNV3S/500G"
+    },
+    "attributes": {}
+  }
+}

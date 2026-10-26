@@ -1,0 +1,134 @@
+{
+  "entity": {
+    "kind": "product",
+    "source_key": "ssd-kingston-a400-480gb-2-5-sata-iii-6gb-s-leitura-500mb-s-gravacao-450mb-s-sa400s37-480g",
+    "url": "https://www.pichau.com.br/ssd-kingston-a400-480gb-2-5-sata-iii-6gb-s-leitura-500mb-s-gravacao-450mb-s-sa400s37-480g",
+    "title": "SSD Kingston A400, 480GB, 2.5, Sata III 6GB/s, Leitura 500MB/s, Gravacao 450MB/s, SA400S37-480G",
+    "description": "SSD Kingston A400, 480GB, 2.5, Sata III 6GB/s, Leitura 500MB/s, Gravacao 450MB/s, SA400S37-480G, Capacidade 480GB, Pichau info",
+    "price": "569.99",
+    "currency": "BRL",
+    "availability": "in_stock",
+    "attributes": {}
+  },
+  "offer": {
+    "price": "569.99",
+    "list_price": "1011.99",
+    "currency": "BRL",
+    "availability": "in_stock",
+    "availability_text": "Produto Disponível Sku: SA400S37-480G  Produto Disponível Produto Disponível",
+    "stock_qt": null,
+    "seller": "Pichau",
+    "ships_from": null,
+    "condition": "NewCondition",
+    "promotions": [],
+    "image_urls": [
+      "https://media.pichau.com.br/media/catalog/product/cache/74c1057f7991b4edb2bc7bdaa94de933/s/a/sa400s37480g321.jpg"
+    ],
+    "payment_options": [
+      {
+        "method": "pix",
+        "text": "R$ 569,99 à vista no Pix",
+        "total_price": "569.99",
+        "installment_count": null,
+        "installment_price": null,
+        "interest_free": null,
+        "conditions": [],
+        "total_is_derived": false,
+        "extraction_method": "deterministic"
+      },
+      {
+        "method": "card",
+        "text": "R$ 670,58",
+        "total_price": "670.58",
+        "installment_count": null,
+        "installment_price": null,
+        "interest_free": null,
+        "conditions": [],
+        "total_is_derived": false,
+        "extraction_method": "deterministic"
+      },
+      {
+        "method": "installment",
+        "text": "em até 12x de R$ 55,88",
+        "total_price": "670.56",
+        "installment_count": 12,
+        "installment_price": "55.88",
+        "interest_free": null,
+        "conditions": [
+          "em até 12x de R$ 55,88"
+        ],
+        "total_is_derived": true,
+        "extraction_method": "deterministic"
+      }
+    ],
+    "shipping": null,
+    "shipping_options": [],
+    "stock_lower_bound_qt": null,
+    "units_per_pack": null,
+    "minimum_purchase_qt": null,
+    "maximum_purchase_qt": null,
+    "commercial_extraction": {
+      "version": "1.0.1",
+      "evidence": [
+        {
+          "field": "price",
+          "locator": "[class*=\"-price_vista-\"],[class$=\"-price_vista\"]",
+          "excerpt": "R$ 569,99",
+          "method": "deterministic"
+        },
+        {
+          "field": "availability",
+          "locator": "[class*=\"-availability\"],[class*=\"-stock\"],[class*=\"-product_info_stock\"],[class*=\"-priceWrapper\"] [class*=\"-addToCartWrapper\"]",
+          "excerpt": "Produto Disponível Sku: SA400S37-480G  Produto Disponível Produto Disponível",
+          "method": "deterministic"
+        },
+        {
+          "field": "payment_options",
+          "locator": "[class*=\"-price_total\"],[class*=\"-price_parcelado_text\"],[class*=\"-priceTotal\"],[class*=\"-installmentsPrice\"] > p:not([class*=\"-priceTotal\"])",
+          "excerpt": "R$ 670,58",
+          "method": "deterministic"
+        },
+        {
+          "field": "payment_options",
+          "locator": "[class*=\"-price_total\"],[class*=\"-price_parcelado_text\"],[class*=\"-priceTotal\"],[class*=\"-installmentsPrice\"] > p:not([class*=\"-priceTotal\"])",
+          "excerpt": "em até 12x de R$ 55,88",
+          "method": "deterministic"
+        },
+        {
+          "field": "payment_options",
+          "locator": "[class*=\"-price_total\"],[class*=\"-price_parcelado_text\"],[class*=\"-priceTotal\"],[class*=\"-installmentsPrice\"] > p:not([class*=\"-priceTotal\"])",
+          "excerpt": "sem juros no cartão",
+          "method": "deterministic"
+        }
+      ],
+      "unresolved": [],
+      "fallback_status": "not_needed",
+      "model": null,
+      "input_tokens": null,
+      "output_tokens": null
+    }
+  },
+  "authors": [],
+  "isbn": [],
+  "specifications": {
+    "Marca": "Kingston",
+    "Modelo": "SA400S37/480G",
+    "Formato": "2.5\"",
+    "Interface": "SATA Rev 3.0 (6Gb/s)",
+    "Capacidade": "480GB",
+    "Velocidade de Leitura": "500 MB/s",
+    "Velocidade de Gravação": "450MB/s"
+  },
+  "rating_text": null,
+  "review_count_text": null,
+  "catalog": {
+    "category": "other",
+    "brand": "Kingston",
+    "model": "SA400S37/480G",
+    "identifiers": {
+      "gtin": "740617263442",
+      "mpn": "SA400S37-480G"
+    },
+    "attributes": {}
+  }
+}

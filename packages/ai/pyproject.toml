@@ -1,0 +1,13 @@
+[project]
+name = "panoptes-ai"
+version = "0.1.0"
+requires-python = ">=3.12"
+dependencies = ["panoptes-database", "panoptes-storage", "httpx>=0.28,<1", "PyYAML>=6,<7", "jsonschema>=4,<5"]
+
+[tool.uv.sources]
+panoptes-database = { workspace = true }
+panoptes-storage = { workspace = true }
+
+[build-system]
+requires = ["hatchling>=1.27,<2"]
+build-backend = "hatchling.build"

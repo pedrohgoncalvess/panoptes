@@ -1,0 +1,52 @@
+{
+  "entity": {
+    "kind": "product",
+    "source_key": "MLB9876543210",
+    "url": "https://www.mercadolivre.com.br/livro-cto/p/MLB9876543210",
+    "title": "CTO: Gestão de tecnologia",
+    "description": null,
+    "price": null,
+    "currency": null,
+    "availability": "unknown",
+    "attributes": {}
+  },
+  "offer": {
+    "price": null,
+    "list_price": null,
+    "currency": null,
+    "availability": "unknown",
+    "availability_text": "Mais de 10 disponíveis",
+    "stock_qt": null,
+    "seller": null,
+    "ships_from": null,
+    "condition": null,
+    "promotions": [
+      {
+        "kind": "coupon",
+        "text": "Cupom sujeito a condições",
+        "code": null,
+        "expires_at": null,
+        "requires_activation": null,
+        "discount_amount": null,
+        "discount_percent": null,
+        "minimum_spend": null,
+        "conditions": []
+      }
+    ],
+    "image_urls": [],
+    "payment_options": [],
+    "shipping": null
+  },
+  "authors": [],
+  "isbn": [],
+  "specifications": {},
+  "rating_text": null,
+  "review_count_text": null,
+  "catalog": {
+    "category": "book",
+    "brand": null,
+    "model": null,
+    "identifiers": {},
+    "attributes": {}
+  }
+}

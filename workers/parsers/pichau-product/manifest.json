@@ -1,0 +1,31 @@
+{
+  "contract_version": "1.0",
+  "slug": "pichau-product",
+  "version": "1.0.0",
+  "hosts": [
+    "www.pichau.com.br",
+    "pichau.com.br"
+  ],
+  "entity_kind": "product",
+  "entrypoint": "panoptes_workers.retailers.pichau:parse_catalog_product",
+  "fixtures": [
+    {
+      "name": "upgrade-kit",
+      "html_path": "upgrade-kit.html",
+      "expected_path": "upgrade-kit.expected.json",
+      "provenance": "sanitized_capture"
+    },
+    {
+      "name": "gpu",
+      "html_path": "gpu.html",
+      "expected_path": "gpu.expected.json",
+      "provenance": "sanitized_capture"
+    },
+    {
+      "name": "ssd",
+      "html_path": "ssd.html",
+      "expected_path": "ssd.expected.json",
+      "provenance": "sanitized_capture"
+    }
+  ]
+}

@@ -1,0 +1,31 @@
+# Deploy beside existing services with:
+# docker compose -f compose.yaml -f compose.server.yaml up --build -d
+services:
+  postgres:
+    profiles: [local-database]
+  migrations:
+    environment:
+      MIGRATIONS_DATABASE_URL: postgresql+psycopg://${POSTGRES_USER}:${POSTGRES_PASSWORD}@postgres:5432/${POSTGRES_DB}
+    depends_on: !reset {}
+    networks: [default, database]
+  backend:
+    environment:
+      S3_PUBLIC_ENDPOINT_URL: ${S3_PUBLIC_ENDPOINT_URL}
+    networks: [default, database]
+    restart: unless-stopped
+  workers:
+    networks: [default, database]
+    restart: unless-stopped
+  frontend:
+    ports: !override ["${FRONTEND_BIND_HOST:-127.0.0.1}:${FRONTEND_PORT:-3000}:3000"]
+    environment:
+      ORIGIN: ${FRONTEND_ORIGIN}
+    restart: unless-stopped
+  minio:
+    ports: !override ["${S3_BIND_HOST:-127.0.0.1}:${S3_PORT:-9675}:9000", "127.0.0.1:${MINIO_CONSOLE_PORT:-9676}:9001"]
+    restart: unless-stopped
+
+networks:
+  database:
+    external: true
+    name: ${DATABASE_NETWORK:-dokploy-network}

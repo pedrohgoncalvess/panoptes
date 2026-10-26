@@ -1,0 +1,129 @@
+{
+  "entity": {
+    "kind": "product",
+    "source_key": "B0TV500001",
+    "url": "https://www.amazon.com.br/dp/B0TV500001",
+    "title": "Smart TV Samsung 50 polegadas Crystal UHD 4K S50C100",
+    "description": null,
+    "price": "2999.90",
+    "currency": "BRL",
+    "availability": "in_stock",
+    "attributes": {}
+  },
+  "offer": {
+    "price": "2999.90",
+    "list_price": "3499.90",
+    "currency": "BRL",
+    "availability": "in_stock",
+    "availability_text": "Em estoque. Restam 3 unidades.",
+    "stock_qt": 3,
+    "seller": "Loja Exemplo",
+    "ships_from": "Amazon",
+    "condition": "NewCondition",
+    "promotions": [
+      {
+        "kind": "coupon",
+        "text": "Ative o cupom: TV10 para 10% de desconto em compras acima de R$ 2.000,00. Apenas clientes elegíveis.",
+        "code": "TV10",
+        "expires_at": null,
+        "requires_activation": true,
+        "discount_amount": null,
+        "discount_percent": "10",
+        "minimum_spend": "2000.00",
+        "conditions": [
+          "Ative o cupom: TV10 para 10% de desconto em compras acima de R$ 2.000,00. Apenas clientes elegíveis."
+        ]
+      },
+      {
+        "kind": "installment",
+        "text": "10x de R$ 299,99 sem juros no cartão participante",
+        "code": null,
+        "expires_at": null,
+        "requires_activation": null,
+        "discount_amount": null,
+        "discount_percent": null,
+        "minimum_spend": null,
+        "conditions": [
+          "10x de R$ 299,99 sem juros no cartão participante"
+        ]
+      },
+      {
+        "kind": "shipping",
+        "text": "Frete R$ 15,90 para CEP 01001-000. Valor conforme endereço.",
+        "code": null,
+        "expires_at": null,
+        "requires_activation": null,
+        "discount_amount": null,
+        "discount_percent": null,
+        "minimum_spend": null,
+        "conditions": [
+          "Frete R$ 15,90 para CEP 01001-000. Valor conforme endereço."
+        ]
+      }
+    ],
+    "image_urls": [],
+    "payment_options": [
+      {
+        "method": "pix",
+        "text": "R$ 2.799,90 no Pix",
+        "total_price": "2799.90",
+        "installment_count": null,
+        "installment_price": null,
+        "interest_free": null,
+        "conditions": [
+          "R$ 2.799,90 no Pix"
+        ]
+      },
+      {
+        "method": "installment",
+        "text": "10x de R$ 299,99 sem juros no cartão participante",
+        "total_price": null,
+        "installment_count": 10,
+        "installment_price": "299.99",
+        "interest_free": true,
+        "conditions": [
+          "10x de R$ 299,99 sem juros no cartão participante"
+        ]
+      }
+    ],
+    "shipping": {
+      "text": "Frete R$ 15,90 para CEP 01001-000. Valor conforme endereço.",
+      "price": "15.90",
+      "is_free": null,
+      "destination_postal_code": "01001-000",
+      "conditions": [
+        "Frete R$ 15,90 para CEP 01001-000. Valor conforme endereço."
+      ]
+    }
+  },
+  "authors": [],
+  "isbn": [],
+  "specifications": {
+    "Marca": "Samsung",
+    "Modelo": "S50C100",
+    "Tamanho da tela": "50 Polegadas",
+    "Resolução": "4K UHD",
+    "Tecnologia de exibição": "LED",
+    "Taxa de atualização": "60 Hz",
+    "Voltagem": "Bivolt",
+    "Cor": "Preto"
+  },
+  "rating_text": null,
+  "review_count_text": null,
+  "catalog": {
+    "category": "television",
+    "brand": "Samsung",
+    "model": "S50C100",
+    "identifiers": {},
+    "attributes": {
+      "screen_size_inches": "50",
+      "resolution": "3840x2160",
+      "panel_technology": "LED",
+      "product_line": "Crystal",
+      "refresh_rate_hz": "60",
+      "smart": true,
+      "voltage": "bivolt",
+      "color": "Preto"
+    }
+  }
+}
