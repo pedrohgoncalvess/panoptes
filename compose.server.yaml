@@ -1,22 +1,33 @@
 # Deploy beside existing services with:
-# docker compose -f compose.yaml -f compose.server.yaml up --build -d
+# docker compose -f compose.server.yaml up --build -d
+name: panoptes
 services:
-  postgres:
-    profiles: [local-database]
   migrations:
+    extends:
+      file: compose.yaml
+      service: migrations
     environment:
       MIGRATIONS_DATABASE_URL: postgresql+psycopg://${POSTGRES_USER}:${POSTGRES_PASSWORD}@postgres:5432/${POSTGRES_DB}
     depends_on: !reset {}
     networks: [default, database]
   backend:
+    extends:
+      file: compose.yaml
+      service: backend
     environment:
       S3_PUBLIC_ENDPOINT_URL: ${S3_PUBLIC_ENDPOINT_URL}
     networks: [default, database]
     restart: unless-stopped
   workers:
+    extends:
+      file: compose.yaml
+      service: workers
     networks: [default, database]
     restart: unless-stopped
   frontend:
+    extends:
+      file: compose.yaml
+      service: frontend
     ports: !override ["${FRONTEND_BIND_HOST:-127.0.0.1}:${FRONTEND_PORT:-3000}:3000"]
     environment:
       ORIGIN: ${FRONTEND_ORIGIN}
@@ -26,3 +37,6 @@ networks:
   database:
     external: true
     name: ${DATABASE_NETWORK:-dokploy-network}
+
+volumes:
+  browser_sessions:

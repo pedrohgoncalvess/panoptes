@@ -1,8 +1,11 @@
 # Servidor com PostgreSQL e Silo compartilhados
 
-O override `compose.server.yaml` conecta migrations, backend e workers ao
-PostgreSQL existente na rede externa `dokploy-network`. O servico PostgreSQL
-local fica em um profile separado. Backend e workers acessam o Silo existente
+O arquivo de producao `compose.server.yaml` e independente: execute-o sozinho,
+sem combinar com `compose.yaml`. Ele reaproveita via `extends` apenas migrations,
+backend, workers e frontend. PostgreSQL e MinIO nao fazem parte da configuracao
+de producao. O `compose.yaml` continua incluindo PostgreSQL para desenvolvimento.
+Migrations, backend e workers usam o PostgreSQL existente na rede externa
+`dokploy-network`. Backend e workers acessam o Silo existente
 pelo hostname `s3`, na mesma rede. Apenas as sessoes usam um volume do Panoptes;
 o projeto nao inicia MinIO nem um inicializador de volume de armazenamento.
 
@@ -23,9 +26,9 @@ Ao migrar usuarios, deixe `SUPERUSER_NAME`, `SUPERUSER_EMAIL` e
 
 ```sh
 git pull --ff-only
-docker compose -f compose.yaml -f compose.server.yaml config --quiet
-docker compose -f compose.yaml -f compose.server.yaml up --build -d
-docker compose -f compose.yaml -f compose.server.yaml ps
+docker compose -f compose.server.yaml config --quiet
+docker compose -f compose.server.yaml up --build -d
+docker compose -f compose.server.yaml ps
 curl --fail http://127.0.0.1:9876/health/ready
 ```
 
