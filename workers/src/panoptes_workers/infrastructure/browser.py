@@ -14,6 +14,31 @@ class BrowserClient:
         )
 
     async def fetch(self, site, url, lock, interval):
+        for attempt in range(3):
+            try:
+                return await self._fetch_once(site, url, lock, interval)
+            except (
+                httpx.NetworkError,
+                httpx.TimeoutException,
+                httpx.RemoteProtocolError,
+            ):
+                if attempt == 2:
+                    raise
+            except httpx.HTTPStatusError as error:
+                if error.response.status_code not in (502, 503, 504) or attempt == 2:
+                    raise
+            await asyncio.sleep(2 ** (attempt + 1))
+
+    async def unavailable_sites(self):
+        response = await self.client.get("/internal/browser/availability")
+        response.raise_for_status()
+        return [
+            site
+            for site, status in response.json().items()
+            if status not in ("connected", "disconnected")
+        ]
+
+    async def _fetch_once(self, site, url, lock, interval):
         async with lock:
             await asyncio.sleep(interval)
             response = await self.client.post(

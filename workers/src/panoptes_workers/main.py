@@ -96,7 +96,7 @@ async def main(once=False):
                         )
                     )
                 )
-                tasks.append(asyncio.create_task(schedule_loop(sessions, stop)))
+                tasks.append(asyncio.create_task(schedule_loop(sessions, stop, browser)))
                 tasks.append(
                     asyncio.create_task(
                         normalization_loop(

@@ -288,6 +288,18 @@ async def test_authentication_admin_and_internal_token(connections, monkeypatch)
             headers={"X-Browser-Service-Token": "internal-secret"},
         )
         assert result.json() == {"fallback": True}
+        assert (await client.get("/internal/browser/availability")).status_code == 403
+        connections.write(
+            "amazon_br",
+            {"status": "verification_required", "storage": {"private": "secret"}},
+        )
+        result = await client.get(
+            "/internal/browser/availability",
+            headers={"X-Browser-Service-Token": "internal-secret"},
+        )
+        assert result.status_code == 200
+        assert result.json()["amazon_br"] == "verification_required"
+        assert "secret" not in result.text
 
 
 async def test_worker_browser_mode_and_disconnected_fallback():

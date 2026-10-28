@@ -103,7 +103,8 @@ async def result_local(site: BrowserSourceId, value: Result, request: Request):
             "verification_required"
             if captcha_page(value.final_url, value.body.get_secret_value())
             else "reconnect_required"
-            if value.blocked or login_page(value.final_url, value.body.get_secret_value())
+            if value.blocked
+            or login_page(value.final_url, value.body.get_secret_value())
             else "connected"
         )
         instance.write(site, state)
@@ -142,3 +143,13 @@ async def fetch(value: Fetch, request: Request):
     if not expected or not hmac.compare_digest(expected, supplied):
         raise HTTPException(403, "Acesso interno negado.")
     return await service(request).fetch(value.site, value.url)
+
+
+@internal_router.get("/availability", include_in_schema=False)
+async def availability(request: Request):
+    expected = os.getenv("BROWSER_SERVICE_TOKEN", "")
+    supplied = request.headers.get("X-Browser-Service-Token", "")
+    if not expected or not hmac.compare_digest(expected, supplied):
+        raise HTTPException(403, "Acesso interno negado.")
+    instance = service(request)
+    return {site: (await instance.status(site))["status"] for site in SESSION_DOMAINS}

@@ -339,5 +339,5 @@ async def test_only_explicit_routines_are_enqueued(monkeypatch):
     monkeypatch.setattr(schedules, "enqueue_schedules", enqueue)
     session = Mock(execute=AsyncMock())
     await queue_repository.enqueue_due(session)
-    enqueue.assert_awaited_once_with(session)
+    enqueue.assert_awaited_once_with(session, ())
     session.execute.assert_not_awaited()

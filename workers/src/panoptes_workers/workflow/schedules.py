@@ -4,7 +4,7 @@ from panoptes_contracts.schedules import RoutineSchedule, next_run
 from sqlalchemy import text
 
 
-async def enqueue_schedules(session):
+async def enqueue_schedules(session, unavailable_sites=()):
     rows = (
         (
             await session.execute(
@@ -20,18 +20,33 @@ async def enqueue_schedules(session):
         if row["mode"] == "discover":
             await session.execute(
                 text("""INSERT INTO "scraping"."scrape_request" (mode,search_term_id,routine_public_id)
-                SELECT 'discover',search_term_id,CAST(:routine_pid AS UUID) FROM scraping.routine_search_term
-                WHERE routine_id=:routine ON CONFLICT DO NOTHING"""),
-                {"routine": row["id"], "routine_pid": row["public_id"]},
+                SELECT 'discover',rt.search_term_id,CAST(:routine_pid AS UUID)
+                FROM scraping.routine_search_term rt
+                JOIN scraping.search_term st ON st.id=rt.search_term_id
+                WHERE rt.routine_id=:routine
+                  AND NOT (st.site = ANY(CAST(:unavailable_sites AS text[])))
+                ON CONFLICT DO NOTHING"""),
+                {
+                    "routine": row["id"],
+                    "routine_pid": row["public_id"],
+                    "unavailable_sites": list(unavailable_sites),
+                },
             )
         else:
             await session.execute(
                 text("""INSERT INTO "scraping"."scrape_request" (mode,tracking_target_id,routine_public_id)
                 SELECT DISTINCT 'refresh',t.id,CAST(:routine_pid AS UUID) FROM "scraping"."tracking_target" t
                 JOIN "scraping"."search_term_entity" e ON e.entity_id=t.entity_id
+                JOIN scraping.entity entity ON entity.id=t.entity_id
                 JOIN scraping.routine_search_term rt ON rt.search_term_id=e.search_term_id
-                WHERE rt.routine_id=:routine AND t.enabled ON CONFLICT DO NOTHING"""),
-                {"routine": row["id"], "routine_pid": row["public_id"]},
+                WHERE rt.routine_id=:routine AND t.enabled
+                  AND NOT (entity.site = ANY(CAST(:unavailable_sites AS text[])))
+                ON CONFLICT DO NOTHING"""),
+                {
+                    "routine": row["id"],
+                    "routine_pid": row["public_id"],
+                    "unavailable_sites": list(unavailable_sites),
+                },
             )
         schedule = RoutineSchedule.model_validate(row["schedule"])
         now = datetime.now(UTC)

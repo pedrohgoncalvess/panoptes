@@ -211,6 +211,8 @@ class OpenRouter:
                 ):
                     raise
                 delay = 2 ** (attempt + 1)
+                if error.response.status_code == 429:
+                    delay = (10, 30)[attempt]
                 # Respect a bounded Retry-After; do not hold a worker indefinitely.
                 retry_after = error.response.headers.get("retry-after", "")
                 if retry_after.isdigit():

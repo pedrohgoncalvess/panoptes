@@ -63,7 +63,8 @@ def test_interval_and_dst_nonexistent_hour():
 
 
 @pytest.mark.parametrize("mode", ["discover", "refresh"])
-async def test_scheduler_enqueues_and_advances_persisted_slot(mode):
+@pytest.mark.parametrize("unavailable", [(), ("amazon_br", "pichau_br")])
+async def test_scheduler_enqueues_and_advances_persisted_slot(mode, unavailable):
     row = {
         "id": 3,
         "public_id": uuid4(),
@@ -76,7 +77,7 @@ async def test_scheduler_enqueues_and_advances_persisted_slot(mode):
     result.mappings.return_value.all.return_value = [row]
     session = AsyncMock()
     session.execute.return_value = result
-    await enqueue_schedules(session)
+    await enqueue_schedules(session, unavailable)
     calls = session.execute.await_args_list
     assert "FOR UPDATE SKIP LOCKED" in str(calls[0].args[0])
     assert ("tracking_target_id" if mode == "refresh" else "search_term_id") in str(
@@ -88,5 +89,10 @@ async def test_scheduler_enqueues_and_advances_persisted_slot(mode):
     compiled = calls[1].args[0].compile(dialect=dialect())
     routine_pid_position = compiled.positiontup.index("routine_pid") + 1
     assert f"CAST(${routine_pid_position} AS UUID)" in str(compiled)
-    assert calls[1].args[1] == {"routine": row["id"], "routine_pid": row["public_id"]}
+    assert calls[1].args[1] == {
+        "routine": row["id"],
+        "routine_pid": row["public_id"],
+        "unavailable_sites": list(unavailable),
+    }
+    assert "ANY(CAST(:unavailable_sites AS text[]))" in str(calls[1].args[0])
     assert calls[2].args[1]["next"] == row["next_run_at"] + timedelta(minutes=45)

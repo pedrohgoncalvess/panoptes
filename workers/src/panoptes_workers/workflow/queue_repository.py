@@ -7,10 +7,10 @@ class LeaseLostError(Exception):
     pass
 
 
-async def enqueue_due(session):
+async def enqueue_due(session, unavailable_sites=()):
     from .schedules import enqueue_schedules
 
-    await enqueue_schedules(session)
+    await enqueue_schedules(session, unavailable_sites)
 
 
 async def claim(session, owner):

@@ -3,6 +3,7 @@ import json
 from datetime import datetime, timezone
 from uuid import uuid4
 
+import httpx
 from panoptes_database.alerts import extraction_event
 from panoptes_database.session import unit_of_work
 
@@ -24,11 +25,20 @@ async def heartbeat(sessions, request_id, owner):
             await queue_repository.renew(session, request_id, owner)
 
 
-async def schedule_loop(sessions, stop):
+async def enqueue_available(sessions, browser=None):
+    try:
+        unavailable = await browser.unavailable_sites() if browser else ()
+    except (httpx.HTTPError, ValueError):
+        # Leave deadlines due until browser availability can be checked again.
+        return
+    async with unit_of_work(sessions) as session:
+        await queue_repository.enqueue_due(session, unavailable)
+
+
+async def schedule_loop(sessions, stop, browser=None):
     """Enqueue deadlines independently of long-running extractions."""
     while not stop.is_set():
-        async with unit_of_work(sessions) as session:
-            await queue_repository.enqueue_due(session)
+        await enqueue_available(sessions, browser)
         try:
             await asyncio.wait_for(stop.wait(), timeout=5)
         except TimeoutError:
@@ -242,8 +252,8 @@ async def process(resources, request, owner):
 async def run(resources, stop, *, once=False):
     owner = uuid4()
     while not stop.is_set():
+        await enqueue_available(resources.sessions, resources.browser)
         async with unit_of_work(resources.sessions) as session:
-            await queue_repository.enqueue_due(session)
             request = await queue_repository.claim(session, owner)
             if request:
                 await extraction_event(

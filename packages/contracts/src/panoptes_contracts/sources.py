@@ -133,6 +133,13 @@ def captcha_page(url: str, html: str | bytes) -> bool:
     content = (
         html.decode("utf-8", errors="replace") if isinstance(html, bytes) else html
     )
+    if (
+        (urlsplit(url).hostname or "").endswith(".mercadolivre.com.br")
+        and re.search(r'<button\b[^>]*\bid=["\']continue-button["\']', content, re.I)
+        and re.search(r'\bclass=["\']micro-landing-button["\']', content, re.I)
+        and "This page requires JavaScript to work" in content
+    ):
+        return True
     visible = re.sub(
         r"<(script|style)\b[^>]*>.*?</\1>", " ", content, flags=re.I | re.S
     )

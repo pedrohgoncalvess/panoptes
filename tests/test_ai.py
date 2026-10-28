@@ -147,7 +147,9 @@ async def test_gateway_retries_transient_http_errors_with_separate_audits(
         "failed",
         "completed",
     ]
-    assert [c.args[0] for c in sleep.await_args_list] == [5, 5]
+    assert [c.args[0] for c in sleep.await_args_list] == (
+        [10, 30] if status == 429 else [5, 5]
+    )
 
 
 async def test_gateway_stops_after_three_rate_limited_attempts(monkeypatch):
@@ -165,7 +167,7 @@ async def test_gateway_stops_after_three_rate_limited_attempts(monkeypatch):
         with pytest.raises(httpx.HTTPStatusError):
             await gateway.invoke("test", "evidence", agent=agent())
     assert gateway._finish.await_count == 3
-    assert [c.args[0] for c in sleep.await_args_list] == [2, 4]
+    assert [c.args[0] for c in sleep.await_args_list] == [10, 30]
 
 
 async def test_gemini_grammar_is_simple_but_local_validation_remains_strict(
