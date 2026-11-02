@@ -28,7 +28,7 @@ services:
     extends:
       file: compose.yaml
       service: frontend
-    ports: !override ["${FRONTEND_BIND_HOST:-127.0.0.1}:${FRONTEND_PORT:-3000}:3000"]
+    ports: !override ["${FRONTEND_BIND_HOST:-0.0.0.0}:${FRONTEND_PORT:-3000}:3000"]
     environment:
       ORIGIN: ${FRONTEND_ORIGIN}
     restart: unless-stopped
