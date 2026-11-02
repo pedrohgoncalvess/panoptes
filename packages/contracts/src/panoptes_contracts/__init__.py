@@ -7,6 +7,7 @@ from .catalog import (
     RefrigeratorAttributes,
     SchoolSuppliesAttributes,
     TelevisionAttributes,
+    format_product_name,
 )
 from .discovery import (
     CandidateValidation,

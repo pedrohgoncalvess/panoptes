@@ -9,6 +9,7 @@ import unicodedata
 from uuid import uuid4
 
 from panoptes_contracts.base import Contract
+from panoptes_contracts.catalog import format_product_name
 from panoptes_database.session import unit_of_work
 from pydantic import Field, model_validator
 from sqlalchemy import text
@@ -36,6 +37,10 @@ class Normalization(Contract):
 
     @model_validator(mode="after")
     def unique_attributes(self):
+        formatted_name = format_product_name(self.name)
+        if not formatted_name:
+            raise ValueError("empty_product_name")
+        object.__setattr__(self, "name", formatted_name)
         keys = [normalize(a.name) for a in self.attributes]
         if len(set(keys)) != len(keys):
             raise ValueError("duplicate_material_attribute")
@@ -194,7 +199,7 @@ async def process_one(sessions, client):
                         text("""
                   INSERT INTO catalog.canonical_product(identity_key,name,identity)
                   VALUES (:key,:name,CAST(:identity AS jsonb))
-                  ON CONFLICT(identity_key) DO UPDATE SET identity_key=excluded.identity_key
+                  ON CONFLICT(identity_key) DO UPDATE SET name=excluded.name
                   RETURNING id
                 """),
                         {

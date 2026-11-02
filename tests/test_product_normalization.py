@@ -2,6 +2,7 @@ import json
 from unittest.mock import AsyncMock, Mock
 
 import pytest
+from panoptes_contracts.catalog import format_product_name
 from panoptes_workers.normalization import (
     Normalization,
     evidence_input,
@@ -173,3 +174,23 @@ async def test_failed_inference_retries_without_assigning(monkeypatch):
     query = str(session.execute.await_args.args[0])
     assert "status='failed'" in query and "available_at" in query
     assert "canonical_product_id" not in query
+
+
+@pytest.mark.parametrize(
+    "raw,expected",
+    [
+        ("amd_ryzen_7_5700", "AMD Ryzen 7 5700"),
+        ("amd_ryzen_5_5600gt", "AMD Ryzen 5 5600GT"),
+        ("amd_ryzen_5_8500g", "AMD Ryzen 5 8500G"),
+        ("amd_ryzen_5_8600g", "AMD Ryzen 5 8600G"),
+        ("amd ryzen 7 9700x", "AMD Ryzen 7 9700X"),
+        ("kindle 16gb", "Kindle 16GB"),
+        ("kindle 16 gb", "Kindle 16GB"),
+        ("notebook lenovo ideapad slim 3", "Notebook Lenovo IdeaPad Slim 3"),
+        ("sofá 3 lugares zurc decor duque", "Sofá 3 Lugares Zurc Decor Duque"),
+        ("ssd_kingston_nv2_1tb_nvme_m.2", "SSD Kingston NV2 1TB NVMe M.2"),
+    ],
+)
+def test_product_name_normalization_removes_underscores_and_capitalizes(raw, expected):
+    assert format_product_name(raw) == expected
+    assert normalized(name=raw).name == expected

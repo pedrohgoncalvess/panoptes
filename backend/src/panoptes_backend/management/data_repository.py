@@ -1,4 +1,5 @@
 from fastapi import HTTPException
+from panoptes_contracts.catalog import format_product_name
 from sqlalchemy import text
 
 from ..core.errors import NotFoundError
@@ -84,6 +85,17 @@ async def rows(session, q, site, request_id, limit, offset, filters=None):
         .mappings()
         .all()
     )
+    items = [
+        {
+            **row,
+            "canonical_name": (
+                format_product_name(row["canonical_name"])
+                if row.get("canonical_name")
+                else row.get("canonical_name")
+            ),
+        }
+        for row in items
+    ]
     return dict(items=items, total=total, limit=limit, offset=offset)
 
 
