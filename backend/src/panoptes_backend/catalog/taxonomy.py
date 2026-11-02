@@ -1,6 +1,7 @@
 from uuid import UUID
 
 from fastapi import APIRouter, Depends, HTTPException, Query
+from panoptes_contracts.catalog import format_product_name
 from panoptes_contracts.taxonomy import TaxonEdit, TaxonomyAssignment, TaxonomyPolicy
 from panoptes_database import taxonomy as repository
 from sqlalchemy import text
@@ -13,9 +14,18 @@ router = APIRouter(tags=["taxonomy"])
 
 
 @router.get("/catalog/taxonomy")
-async def taxonomy(session=Depends(session_dependency)):
+async def taxonomy(
+    term_id: UUID | None = None,
+    site: str | None = Query(None, max_length=100),
+    session=Depends(session_dependency),
+):
+    nodes = (
+        await repository.nodes(session, term_id=term_id, site=site or None)
+        if term_id is not None or site
+        else await repository.nodes(session)
+    )
     return {
-        "nodes": await repository.nodes(session),
+        "nodes": nodes,
         "policy": await repository.policy(session),
     }
 
@@ -58,7 +68,7 @@ async def product_taxonomy(product_id: UUID, session=Depends(session_dependency)
     row = await repository.assignment(session, product_id)
     if row is None:
         raise NotFoundError("Produto não encontrado.")
-    return row
+    return {**row, "name": format_product_name(row["name"])}
 
 
 @router.get("/admin/taxonomy/products", dependencies=[Depends(administrator)])
@@ -68,7 +78,7 @@ async def taxonomy_products(
     offset: int = Query(0, ge=0),
     session=Depends(session_dependency),
 ):
-    return (
+    rows = (
         (
             await session.execute(
                 text("""
@@ -84,6 +94,7 @@ async def taxonomy_products(
         .mappings()
         .all()
     )
+    return [{**row, "name": format_product_name(row["name"])} for row in rows]
 
 
 @router.put(

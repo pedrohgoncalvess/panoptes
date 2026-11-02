@@ -55,6 +55,8 @@ def price_filters(
     site: str | None = Query(None, max_length=100),
     q: Annotated[str | None, Query(max_length=300)] = None,
     canonical_product_id: UUID | None = None,
+    category_id: UUID | None = None,
+    subcategory_id: UUID | None = None,
     collected_start_at: AwareDatetime | None = None,
     collected_end_at: AwareDatetime | None = None,
     currency: Annotated[str | None, Query(pattern=r"^[A-Z]{3}$")] = None,
@@ -88,6 +90,8 @@ def price_filters(
             "q": (q or "").strip(),
             "product_ids": None,
             "canonical_product_id": canonical_product_id,
+            "category_id": category_id,
+            "subcategory_id": subcategory_id,
             "currency": currency,
         }
     end = end or datetime.now(zone).date()
@@ -103,6 +107,8 @@ def price_filters(
         "q": (q or "").strip(),
         "product_ids": None,
         "canonical_product_id": canonical_product_id,
+        "category_id": category_id,
+        "subcategory_id": subcategory_id,
         "currency": currency,
     }
 
@@ -124,6 +130,18 @@ async def resolve_price_search(request, session, filters):
                 session, filters["canonical_product_id"]
             )
         )
+    if filters.get("category_id") or filters.get("subcategory_id"):
+        taxonomy_ids = list(
+            await products_repository.taxonomy_entity_ids(
+                session,
+                filters.get("category_id"),
+                filters.get("subcategory_id"),
+            )
+        )
+        if filters["product_ids"] is not None:
+            allowed = set(filters["product_ids"])
+            taxonomy_ids = [item for item in taxonomy_ids if item in allowed]
+        filters["product_ids"] = taxonomy_ids
     if filters["q"]:
         matches = await request.app.state.product_search.search(
             session, filters["q"], filters["term_id"], filters["site"], limit=None
@@ -142,13 +160,43 @@ async def price_products(
     site: str | None = Query(None, max_length=100),
     q: str | None = Query(None, max_length=300),
     selected: UUID | None = None,
+    canonical_product_id: UUID | None = None,
+    category_id: UUID | None = None,
+    subcategory_id: UUID | None = None,
     session=Depends(session_dependency),
 ):
-    if q and q.strip():
-        return await request.app.state.product_search.search(
-            session, q, term_id, site or None, selected
+    allowed_ids = None
+    if canonical_product_id:
+        allowed_ids = set(
+            await products_repository.canonical_entity_ids(
+                session, canonical_product_id
+            )
         )
-    return await price_analytics.options(session, term_id, site or None)
+    if category_id or subcategory_id:
+        taxonomy_ids = set(
+            await products_repository.taxonomy_entity_ids(
+                session, category_id, subcategory_id
+            )
+        )
+        allowed_ids = (
+            taxonomy_ids if allowed_ids is None else (allowed_ids & taxonomy_ids)
+        )
+    if q and q.strip():
+        rows = await request.app.state.product_search.search(
+            session,
+            q,
+            term_id,
+            site or None,
+            selected,
+            **(dict(limit=None) if allowed_ids is not None else {}),
+        )
+        if allowed_ids is not None:
+            rows = [row for row in rows if row["public_id"] in allowed_ids][:100]
+        return rows
+    rows = await price_analytics.options(session, term_id, site or None)
+    if allowed_ids is not None:
+        rows = [row for row in rows if row["public_id"] in allowed_ids]
+    return rows
 
 
 @router.get("/analytics/detail")

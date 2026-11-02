@@ -31,11 +31,23 @@ async def session_dependency(request: Request):
 
 @router.get("/catalog/canonical-products")
 async def canonical_products(
+    term_id: UUID | None = None,
+    site: str | None = Query(None, max_length=100),
+    category_id: UUID | None = None,
+    subcategory_id: UUID | None = None,
     limit: int = Query(50, ge=1, le=100),
     offset: int = Query(0, ge=0),
     session=Depends(session_dependency),
 ):
-    return await products_repository.canonical_products(session, limit, offset)
+    return await products_repository.canonical_products(
+        session,
+        limit,
+        offset,
+        term_id=term_id,
+        site=site or None,
+        category_id=category_id,
+        subcategory_id=subcategory_id,
+    )
 
 
 @router.get("/catalog/canonical-products/{product_id}/listings")

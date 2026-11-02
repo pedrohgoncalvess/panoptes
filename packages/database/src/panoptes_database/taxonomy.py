@@ -18,16 +18,53 @@ async def lock(session):
     await session.execute(text("SELECT pg_advisory_xact_lock(74201915)"))
 
 
-async def nodes(session):
-    return (
-        (
-            await session.execute(
-                text("""
+async def nodes(session, *, term_id=None, site=None):
+    if term_id is None and site is None:
+        return (
+            (
+                await session.execute(
+                    text("""
       SELECT t.id,t.parent_id,t.name,t.description,t.active,t.origin,p.name AS parent_name,
         (SELECT count(*) FROM catalog.product_taxonomy a WHERE a.taxon_id=t.id) AS products
       FROM catalog.taxon t LEFT JOIN catalog.taxon p ON p.id=t.parent_id
       ORDER BY t.parent_id NULLS FIRST,t.name,t.id
     """)
+                )
+            )
+            .mappings()
+            .all()
+        )
+    return (
+        (
+            await session.execute(
+                text("""
+      WITH matching_products AS (
+        SELECT DISTINCT c.id
+        FROM catalog.canonical_product c
+        JOIN catalog.product_normalization n ON n.canonical_product_id=c.id
+          AND n.status='completed'
+        JOIN catalog.listing l ON l.id=n.listing_id
+        JOIN scraping.entity e ON e.id=l.entity_id
+        WHERE (CAST(:site AS text) IS NULL OR e.site=:site)
+          AND (CAST(:term_id AS uuid) IS NULL OR EXISTS (
+            SELECT 1 FROM scraping.search_term_entity link
+            JOIN scraping.search_term st ON st.id=link.search_term_id
+            WHERE link.entity_id=e.id AND lower(btrim(st.term))=(
+              SELECT lower(btrim(term)) FROM scraping.search_term WHERE public_id=CAST(:term_id AS uuid))))
+      )
+      SELECT t.id,t.parent_id,t.name,t.description,t.active,t.origin,p.name AS parent_name,
+        (SELECT count(*) FROM catalog.product_taxonomy a
+         WHERE a.taxon_id=t.id AND a.product_id IN (SELECT id FROM matching_products)) AS products
+      FROM catalog.taxon t LEFT JOIN catalog.taxon p ON p.id=t.parent_id
+      WHERE EXISTS (
+        SELECT 1 FROM catalog.product_taxonomy a
+        LEFT JOIN catalog.taxon child ON child.id=a.taxon_id
+        WHERE a.product_id IN (SELECT id FROM matching_products)
+          AND (a.taxon_id=t.id OR child.parent_id=t.id)
+      )
+      ORDER BY t.parent_id NULLS FIRST,t.name,t.id
+    """),
+                {"term_id": term_id, "site": site},
             )
         )
         .mappings()

@@ -204,3 +204,74 @@ async def test_detail_uses_same_selection_for_count_and_page(latest):
         assert items_sql.index("capture_rank=1") < items_sql.index(
             "LIMIT :limit OFFSET :offset"
         )
+
+
+async def test_canonical_and_taxonomy_filters_scope_options_and_analytics(monkeypatch):
+    from types import SimpleNamespace
+
+    from panoptes_backend.catalog import products_repository
+    from panoptes_backend.management.router import resolve_price_search
+
+    canonical_id, category_id, subcategory_id = uuid4(), uuid4(), uuid4()
+    term_id = uuid4()
+    first, second, third = uuid4(), uuid4(), uuid4()
+    canonical_ids = AsyncMock(return_value=[first, second])
+    taxonomy_ids = AsyncMock(return_value=[second, third])
+    monkeypatch.setattr(products_repository, "canonical_entity_ids", canonical_ids)
+    monkeypatch.setattr(products_repository, "taxonomy_entity_ids", taxonomy_ids)
+    filters = {
+        "canonical_product_id": canonical_id,
+        "category_id": category_id,
+        "subcategory_id": subcategory_id,
+        "q": "",
+        "term_id": term_id,
+        "site": "kabum_br",
+        "product_ids": None,
+    }
+    await resolve_price_search(SimpleNamespace(), None, filters)
+    assert filters["product_ids"] == [second]
+    canonical_ids.assert_awaited_once_with(None, canonical_id)
+    taxonomy_ids.assert_awaited_once_with(None, category_id, subcategory_id)
+
+
+async def test_canonical_products_endpoint_accepts_term_and_taxonomy_filters(
+    monkeypatch,
+):
+    from panoptes_backend.catalog import products_repository
+
+    term_id, category_id, subcategory_id = uuid4(), uuid4(), uuid4()
+    canonical_mock = AsyncMock(
+        return_value=[{"public_id": str(uuid4()), "name": "AMD Ryzen 7 5700"}]
+    )
+    monkeypatch.setattr(products_repository, "canonical_products", canonical_mock)
+    app = create_app()
+    app.dependency_overrides[current_user] = lambda: {"name": "test"}
+    marker = object()
+
+    async def session():
+        yield marker
+
+    app.dependency_overrides[session_dependency] = session
+    async with AsyncClient(
+        transport=ASGITransport(app=app), base_url="http://test"
+    ) as client:
+        response = await client.get(
+            "/catalog/canonical-products",
+            params={
+                "term_id": str(term_id),
+                "site": "kabum_br",
+                "category_id": str(category_id),
+                "subcategory_id": str(subcategory_id),
+            },
+        )
+        assert response.status_code == 200
+        assert response.json()[0]["name"] == "AMD Ryzen 7 5700"
+    canonical_mock.assert_awaited_once_with(
+        marker,
+        50,
+        0,
+        term_id=term_id,
+        site="kabum_br",
+        category_id=category_id,
+        subcategory_id=subcategory_id,
+    )
