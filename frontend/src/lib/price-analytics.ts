@@ -7,6 +7,8 @@ export type PriceFilters = {
 	term_id: string;
 	product_id: string;
 	canonical_product_id: string;
+	category_id: string;
+	subcategory_id: string;
 	site: string;
 	q: string;
 };
@@ -166,6 +168,8 @@ export function dateRange(days = 30): PriceFilters {
 		term_id: '',
 		product_id: '',
 		canonical_product_id: '',
+		category_id: '',
+		subcategory_id: '',
 		q: '',
 		site: ''
 	};

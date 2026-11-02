@@ -23,6 +23,13 @@
 	import ProductDetails from './ProductDetails.svelte';
 	import CommerceAnalytics from './CommerceAnalytics.svelte';
 	import ComparisonChart from './ComparisonChart.svelte';
+	type TaxonNode = {
+		id: string;
+		parent_id: string | null;
+		name: string;
+		active: boolean;
+		products?: number;
+	};
 	let { detail = false, extractions = false }: { detail?: boolean; extractions?: boolean } =
 		$props();
 	let filters = $state<PriceFilters>(dateRange());
@@ -31,6 +38,8 @@
 	let sources = $state<Source[]>([]);
 	let products = $state<ProductOption[]>([]);
 	let canonicalProducts = $state<{ public_id: string; name: string }[]>([]);
+	let taxonomyNodes = $state<TaxonNode[]>([]);
+	let scopedTaxonomyNodes = $state<TaxonNode[] | null>(null);
 	let dashboard = $state<PriceDashboard>();
 	let captures = $state<CapturePage>();
 	let loading = $state(true);
@@ -39,6 +48,24 @@
 	const uniqueTerms = $derived([
 		...new Map(terms.map((term) => [term.term.trim().toLowerCase(), term])).values()
 	]);
+	const hasClassifiedProducts = $derived(
+		taxonomyNodes.some((node) => (node.products ?? 0) > 0)
+	);
+	const availableTaxonomyNodes = $derived(
+		scopedTaxonomyNodes !== null && hasClassifiedProducts ? scopedTaxonomyNodes : taxonomyNodes
+	);
+	const categories = $derived(
+		availableTaxonomyNodes.filter((node) => node.active && !node.parent_id)
+	);
+	const subcategories = $derived(
+		availableTaxonomyNodes.filter(
+			(node) =>
+				node.active &&
+				node.parent_id !== null &&
+				(!filters.category_id || node.parent_id === filters.category_id) &&
+				availableTaxonomyNodes.some((parent) => parent.id === node.parent_id && parent.active)
+		)
+	);
 	let searchTimer: ReturnType<typeof setTimeout>;
 	let optionsController: AbortController | undefined;
 	let message = $state('');
@@ -97,15 +124,85 @@
 		}))
 	);
 	const criteria = $derived(terms.find((t) => t.public_id === applied.term_id)?.criteria);
+	async function fetchCanonicalProducts(signal?: AbortSignal) {
+		const baseParams = new SvelteURLSearchParams();
+		if (filters.term_id) baseParams.set('term_id', filters.term_id);
+		if (filters.site) baseParams.set('site', filters.site);
+		if (filters.category_id) baseParams.set('category_id', filters.category_id);
+		if (filters.subcategory_id) baseParams.set('subcategory_id', filters.subcategory_id);
+		const all: { public_id: string; name: string }[] = [];
+		let batch: { public_id: string; name: string }[];
+		do {
+			const params = new SvelteURLSearchParams(baseParams);
+			params.set('limit', '100');
+			params.set('offset', String(all.length));
+			batch = await request<{ public_id: string; name: string }[]>(
+				`/catalog/canonical-products?${params}`,
+				signal ? { signal } : {}
+			);
+			all.push(...batch);
+		} while (batch.length === 100 && !signal?.aborted);
+		return all;
+	}
 	async function loadOptions() {
 		const current = ++optionVersion;
 		optionsController?.abort();
 		optionsController = new AbortController();
 		optionsLoading = true;
 		try {
+			if (filters.term_id || filters.site) {
+				const taxParams = new SvelteURLSearchParams();
+				if (filters.term_id) taxParams.set('term_id', filters.term_id);
+				if (filters.site) taxParams.set('site', filters.site);
+				const taxResponse = await request<{ nodes: TaxonNode[] }>(
+					`/catalog/taxonomy?${taxParams}`,
+					{ signal: optionsController.signal }
+				);
+				if (current === optionVersion) {
+					scopedTaxonomyNodes = taxResponse.nodes;
+					if (
+						filters.category_id &&
+						hasClassifiedProducts &&
+						!taxResponse.nodes.some(
+							(n) => n.active && !n.parent_id && n.id === filters.category_id
+						)
+					) {
+						filters.category_id = '';
+					}
+					if (
+						filters.subcategory_id &&
+						hasClassifiedProducts &&
+						!taxResponse.nodes.some(
+							(n) =>
+								n.active &&
+								n.parent_id !== null &&
+								n.id === filters.subcategory_id &&
+								(!filters.category_id || n.parent_id === filters.category_id)
+						)
+					) {
+						filters.subcategory_id = '';
+					}
+				}
+			} else if (current === optionVersion) {
+				scopedTaxonomyNodes = null;
+			}
+			const nextCanonical = await fetchCanonicalProducts(optionsController.signal);
+			if (current === optionVersion) {
+				canonicalProducts = nextCanonical;
+				if (
+					filters.canonical_product_id &&
+					!nextCanonical.some((p) => p.public_id === filters.canonical_product_id)
+				) {
+					filters.canonical_product_id = '';
+				}
+			}
 			const params = new SvelteURLSearchParams();
 			if (filters.term_id) params.set('term_id', filters.term_id);
 			if (filters.site) params.set('site', filters.site);
+			if (filters.canonical_product_id)
+				params.set('canonical_product_id', filters.canonical_product_id);
+			if (filters.category_id) params.set('category_id', filters.category_id);
+			if (filters.subcategory_id) params.set('subcategory_id', filters.subcategory_id);
 			if (productSearch.trim()) params.set('q', productSearch.trim());
 			if (filters.product_id) params.set('selected', filters.product_id);
 			const result = await request<ProductOption[]>(`/analytics/prices/products?${params}`, {
@@ -144,12 +241,18 @@
 		await tick();
 		clearTimeout(searchTimer);
 		filters.product_id = '';
-		void apply();
+		if (filters.category_id && filters.subcategory_id) {
+			const selectedSub = availableTaxonomyNodes.find((n) => n.id === filters.subcategory_id);
+			if (!selectedSub || selectedSub.parent_id !== filters.category_id) {
+				filters.subcategory_id = '';
+			}
+		}
 		try {
 			await loadOptions();
 		} catch (cause) {
 			message = cause instanceof Error ? cause.message : 'Unable to load products.';
 		}
+		await apply();
 	}
 	async function load() {
 		const current = ++version;
@@ -228,15 +331,17 @@
 						)?.public_id || '';
 				applied = { ...filters };
 				sources = await request<Source[]>('/sources');
-				let canonicalBatch: { public_id: string; name: string }[];
-				do {
-					canonicalBatch = await request<{ public_id: string; name: string }[]>(
-						`/catalog/canonical-products?limit=100&offset=${canonicalProducts.length}`
-					);
-					canonicalProducts = [...canonicalProducts, ...canonicalBatch];
-				} while (canonicalBatch.length === 100 && active);
+				const taxonomyResponse = await request<{ nodes: TaxonNode[] }>('/catalog/taxonomy');
 				if (!active) return;
+				taxonomyNodes = taxonomyResponse.nodes;
+				if (filters.category_id && filters.subcategory_id) {
+					const selectedSub = taxonomyNodes.find((n) => n.id === filters.subcategory_id);
+					if (!selectedSub || selectedSub.parent_id !== filters.category_id) {
+						filters.subcategory_id = '';
+					}
+				}
 				await loadOptions();
+				applied = { ...filters };
 				if (active) await load();
 			} catch (cause) {
 				if (active) {
@@ -338,6 +443,26 @@
 			options={[
 				{ value: '', label: 'All sites' },
 				...sources.map((s) => ({ value: s.id, label: s.name }))
+			]}
+		/>
+		<Select
+			id="analytics-category"
+			label="Category"
+			bind:value={filters.category_id}
+			onchange={changeScope}
+			options={[
+				{ value: '', label: 'All categories' },
+				...categories.map((c) => ({ value: c.id, label: c.name }))
+			]}
+		/>
+		<Select
+			id="analytics-subcategory"
+			label="Subcategory"
+			bind:value={filters.subcategory_id}
+			onchange={changeScope}
+			options={[
+				{ value: '', label: 'All subcategories' },
+				...subcategories.map((s) => ({ value: s.id, label: s.name }))
 			]}
 		/>
 		<div class="product-filter">
