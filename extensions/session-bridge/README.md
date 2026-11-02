@@ -1,12 +1,12 @@
 # Panoptes — Sessões
 
-Extensão Manifest V3 para Chrome e Edge. Aproveita a sessão da aba atual do
+Extensão Manifest V3 para Chrome, Edge e Brave. Aproveita a sessão da aba atual do
 Mercado Livre, Amazon Brasil, Pichau ou Terabyte, incluindo cookies HttpOnly. Não abre um novo
 navegador e não exige refazer reconhecimento facial quando o site aceita a sessão.
 
 ## Instalação
 
-1. Abra `chrome://extensions` ou `edge://extensions`.
+1. Abra `chrome://extensions`, `edge://extensions` ou `brave://extensions`.
 2. Ative **Modo do desenvolvedor**.
 3. Clique em **Carregar sem compactação** e selecione esta pasta:
    `extensions/session-bridge` (a pasta que contém `manifest.json`).
@@ -84,6 +84,13 @@ Depois da atualização dos arquivos, recarregue a extensão em `chrome://extens
 ou `edge://extensions` para usar a versão **0.3.0** e aceitar a nova permissão de alarmes.
 
 ## Coleta no navegador local
+
+Pichau e Terabyte já são suportadas na versão **0.4.0**, junto com Amazon Brasil
+e Mercado Livre. Use **Neste navegador** se o navegador do backend ficar preso
+na verificação. KaBuM! continua usando o coletor HTTP e não faz parte da extensão.
+
+No servidor de produção com Brave, veja a configuração de acesso por localhost
+e o iniciador dedicado em [implantação no servidor](../../docs/server-deployment.md#coletor-no-brave-do-servidor).
 
 Este modo mantém cookies, IndexedDB e outros dados no perfil real do navegador;
 sessionStorage é conservado ao reutilizar a aba selecionada, enquanto ela estiver

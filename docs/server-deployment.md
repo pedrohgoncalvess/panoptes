@@ -69,3 +69,40 @@ mc admin policy attach silo panoptes-bucket-full-access --user panoptes
 Antes de uma nova migracao, pare os produtores de escrita, tire um dump
 consistente e copie tambem os objetos S3 e o volume de sessoes. Valide contagens,
 autenticacao, acesso aos arquivos e isolamento da role antes de iniciar workers.
+
+## Coletor no Brave do servidor
+
+A extensão `extensions/session-bridge` 0.4.0 suporta Pichau, Terabyte, Amazon Brasil
+e Mercado Livre. Não é necessário instalar Chrome. A coleta usa um perfil normal
+do Brave, separado do Chromium do backend, e exige uma sessão gráfica ativa.
+
+Como a extensão exige HTTPS fora de localhost, o servidor pode disponibilizar um
+segundo frontend restrito ao loopback. Ele usa a mesma imagem e API do frontend
+principal, com sua própria origem HTTP local; o endereço de rede existente é
+preservado. Depois de construir o frontend principal, execute:
+
+```sh
+docker compose -f compose.server.yaml -f compose.browser-local.yaml config --quiet
+docker compose -f compose.server.yaml -f compose.browser-local.yaml up -d --no-deps --no-build frontend-local
+sh scripts/launch_collector_browser.sh
+```
+
+O iniciador abre um perfil dedicado em `~/.local/share/panoptes-browser`, carrega a
+extensão e abre o Panoptes local e as duas lojas. O Brave pessoal continua aberto.
+Se a extensão não aparecer, abra `brave://extensions`, ative **Developer mode**,
+clique em **Load unpacked** e selecione a pasta absoluta
+`/home/pedro/Desktop/projects/panoptes/extensions/session-bridge`.
+
+No perfil do coletor, entre no Panoptes em `http://localhost:3000` com sua conta
+administrativa. Em cada aba da loja, conclua eventuais verificações, abra a
+extensão e escolha **Neste navegador → Ativar coleta neste navegador**, usando
+`http://localhost:3000` como endereço. Mantenha as três abas e a sessão gráfica
+abertas. Faça login na loja somente se necessário. Após reiniciar o backend,
+reative cada fonte pela extensão. Não é necessário enviar cookies ao Docker.
+
+Ao atualizar a extensão, recarregue-a em `brave://extensions` ou feche apenas o
+Brave do coletor e abra o iniciador novamente. Para parar o frontend local:
+
+```sh
+docker compose -f compose.server.yaml -f compose.browser-local.yaml stop frontend-local
+```

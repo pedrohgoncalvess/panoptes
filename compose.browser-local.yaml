@@ -1,0 +1,18 @@
+# Optional frontend for the collector browser running on the production host.
+# Use together with compose.server.yaml; reuse the deployed frontend image.
+services:
+  frontend-local:
+    image: panoptes-frontend
+    environment:
+      PANOPTES_API_URL: http://backend:8000
+      HOST: 0.0.0.0
+      PORT: 3000
+      ORIGIN: http://localhost:3000
+    ports: ["127.0.0.1:3000:3000"]
+    init: true
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "node", "-e", "fetch('http://127.0.0.1:3000/login').then(r => {if (!r.ok) process.exit(1)}).catch(() => process.exit(1))"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
