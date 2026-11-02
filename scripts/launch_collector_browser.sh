@@ -17,5 +17,5 @@ if [ -n "${WAYLAND_DISPLAY:-}" ]; then
 fi
 exec brave-browser "$@" --user-data-dir="$profile_dir" \
     --load-extension="$extension_dir" --no-first-run --no-default-browser-check \
-    http://localhost:3000/connections \
+    http://localhost:3001/connections \
     https://www.pichau.com.br/ https://www.terabyteshop.com.br/

@@ -93,10 +93,10 @@ Se a extensão não aparecer, abra `brave://extensions`, ative **Developer mode*
 clique em **Load unpacked** e selecione a pasta absoluta
 `/home/pedro/Desktop/projects/panoptes/extensions/session-bridge`.
 
-No perfil do coletor, entre no Panoptes em `http://localhost:3000` com sua conta
+No perfil do coletor, entre no Panoptes em `http://localhost:3001` com sua conta
 administrativa. Em cada aba da loja, conclua eventuais verificações, abra a
 extensão e escolha **Neste navegador → Ativar coleta neste navegador**, usando
-`http://localhost:3000` como endereço. Mantenha as três abas e a sessão gráfica
+`http://localhost:3001` como endereço. Mantenha as três abas e a sessão gráfica
 abertas. Faça login na loja somente se necessário. Após reiniciar o backend,
 reative cada fonte pela extensão. Não é necessário enviar cookies ao Docker.
 
