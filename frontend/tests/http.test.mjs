@@ -109,6 +109,7 @@ test('frontend authentication over HTTP', { timeout: 180000 }, async (t) => {
 		}
 		assert.equal((await fetchApp('/api/analytics')).status, 401);
 		assert.equal((await fetchApp('/api/data')).status, 401);
+		assert.equal((await fetchApp('/api/catalog/taxonomy')).status, 401);
 		assert.equal(
 			(await fetchApp('/api/analytics/prices?term_id=00000000-0000-4000-8000-000000000001')).status,
 			401
@@ -349,6 +350,16 @@ test('frontend authentication over HTTP', { timeout: 180000 }, async (t) => {
 			);
 		}
 	);
+	await t.test('price taxonomy filters reach the backend through the proxy', async () => {
+		for (const query of ['', '?term_id=00000000-0000-4000-8000-000000000001&site=amazon_br']) {
+			const response = await fetchApp('/api/catalog/taxonomy' + query);
+			assert.equal(response.status, 200);
+			assert.deepEqual(await response.json(), { nodes: [], policy: { allow_creation: true } });
+			assert.equal(fixture.state.lastRequest.path, '/catalog/taxonomy');
+			assert.equal(fixture.state.lastRequest.search, query);
+		}
+		assert.equal((await fetchApp('/api/catalog/taxonomy/unknown')).status, 404);
+	});
 	await t.test('analytics navigation and prices proxy retain pagination', async () => {
 		const redirect = await fetchApp('/analytics');
 		assert.equal(redirect.status, 303);

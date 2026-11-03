@@ -100,6 +100,8 @@ export function createFixtureApi({ retailBrowser = false } = {}) {
 			sessions.set(sid, false);
 			return send(204);
 		}
+		if (url.pathname === '/catalog/taxonomy')
+			return send(200, { nodes: [], policy: { allow_creation: true } });
 		if (url.pathname === '/auth/mcp-keys') {
 			if (req.method === 'GET') return send(200, mcpKeys);
 			if (req.method === 'POST') {

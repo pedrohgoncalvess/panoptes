@@ -9,7 +9,7 @@ const handler: RequestHandler = async (event) => {
 		error(403, 'Invalid origin.');
 	const path = '/' + event.params.path;
 	if (
-		!/^\/(auth\/(login|logout|mcp-keys(?:\/[\da-f-]+)?)|categories|admin\/categories(?:\/[a-z][a-z0-9_]{0,59})?|extraction-logs(?:\/stream)?|browser-connections(?:\/(?:amazon_br|mercado_livre_br|pichau_br|terabyte_br)(?:\/(?:connect|frame|input|save|cancel|import|local\/(?:start|next|result)))?)?|sources|catalog\/canonical-products(?:\/[\da-f-]+\/listings)?|data(?:\/(?:bulk|[\da-f-]+))?|extraction-groups|analytics(?:\/prices(?:\/(?:dashboard|products))?|\/detail)?|alerts\/webhooks(?:\/[\da-f-]+(?:\/deliveries)?)?|routines(?:\/[\da-f-]+)?|search-terms(?:\/[\da-f-]+\/(discover|discover-sources|routine-sources|products))?|scrape-requests(?:\/[\da-f-]+(?:\/qualifications)?)?|products\/[\da-f-]+\/(refresh|tracking|observations))$/i.test(
+		!/^\/(auth\/(login|logout|mcp-keys(?:\/[\da-f-]+)?)|categories|admin\/categories(?:\/[a-z][a-z0-9_]{0,59})?|extraction-logs(?:\/stream)?|browser-connections(?:\/(?:amazon_br|mercado_livre_br|pichau_br|terabyte_br)(?:\/(?:connect|frame|input|save|cancel|import|local\/(?:start|next|result)))?)?|sources|catalog\/(?:taxonomy|canonical-products(?:\/[\da-f-]+\/listings)?)|data(?:\/(?:bulk|[\da-f-]+))?|extraction-groups|analytics(?:\/prices(?:\/(?:dashboard|products))?|\/detail)?|alerts\/webhooks(?:\/[\da-f-]+(?:\/deliveries)?)?|routines(?:\/[\da-f-]+)?|search-terms(?:\/[\da-f-]+\/(discover|discover-sources|routine-sources|products))?|scrape-requests(?:\/[\da-f-]+(?:\/qualifications)?)?|products\/[\da-f-]+\/(refresh|tracking|observations))$/i.test(
 			path
 		)
 	)
